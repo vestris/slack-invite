@@ -1,0 +1,19 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Exclude:
+    - 'spec/**/*'
+
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+  FunctionalMethods:
+    - expect
+
+inherit_from: .rubocop_todo.yml

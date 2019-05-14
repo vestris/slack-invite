@@ -1,0 +1,22 @@
+body {
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  text-align: center;
+  margin: 20px;
+}
+
+.icon img {
+  width: 200px;
+}
+
+.logo img {
+  width: 120px;
+}
+
+.image {
+  max-width: 1024px;
+  margin: auto;
+}
+
+.image img {
+  width: 100%;
+}

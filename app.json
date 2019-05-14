@@ -1,0 +1,9 @@
+{
+	"name": "Invite",
+	"description": "Slack Invite Automation.",
+	"respository": "https://github.com/dblock/slack-invite",
+	"keywords": ["slack", "bots", "invite", "team"],
+	"addons": [
+		"mongolab"
+	]
+}
