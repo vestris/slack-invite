@@ -1,6 +1,7 @@
 function invite(event) {
   event.preventDefault();
 
+  var name = $('#name').val();
   var email = $('#email').val();
   var team_id = $.url('?team_id')
 
@@ -11,11 +12,12 @@ function invite(event) {
       type: "POST",
       url: "/api/invitations",
       data: {
+        name: name,
         email: email,
         team_id: team_id
       },
       success: function(data) {
-        SlackInvite.message('Invitation successfully requested!<br><br>Stay tuned.');
+        SlackInvite.message('Invitation ' + data.status + '!');
       },
       error: SlackInvite.error
     });

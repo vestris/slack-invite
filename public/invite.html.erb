@@ -1,44 +1,52 @@
-<html>
-  <head>
-    <title>Slack Invite Automation: Get Invited</title>
-    <%= partial 'public/partials/_head.html.erb' %>
-    <script src="/scripts/invite.js"></script>
-  </head>
-  <body>
-    <p class='icon'>
-      <a href='/'><img src='img/icon.png'></a>
-    </p>
-    <p>
-      <h1 id='team_caption'>Slack Invite Automation: Get Invited</h1>
-    </p>
-    <p id='messages' />
-    <p id='invite'>
-      <script>
-        $(document).ready(function() {
+<!doctype html>
+<html lang="en">
 
-          <% team = Team.where(team_id: request['team_id']).first %>
+<head>
+  <title>Slack Invite Automation: Get Invited</title>
+  <%= partial 'public/partials/_head.html.erb' %>
+  <script src="/scripts/invite.js"></script>
+</head>
 
-          var team = {
-            id: '<%= team && team.team_id %>',
-            name: '<%= team && team.name %>'
-          }
+<body>
+  <p class='icon'>
+    <a href='/'><img src='img/icon.png'></a>
+  </p>
+  <p>
+    <h1 id='team_caption'>Get Invited to Team <u><span id='team_name'></span></u></h1>
+  </p>
+  <p id='messages' />
+  <p id='invite'>
+    <script>
+      $(document).ready(function() {
+        <% team = Team.where(team_id: request['team_id']).first %>
 
-          if (! team.name) {
-  	        SlackInvite.message("Missing or invalid team ID.");
-	          return;
-          }
+        var team = {
+          id: '<%= team && team.team_id %>',
+          name: '<%= team && team.name %>'
+        }
 
-          $('#team_caption').text('Get Invited to Team ' + team.name + '!')
-        });
+        if (! team.name) {
+          $('form').remove();
+          SlackInvite.message("Missing or invalid team ID.");
+          return;
+        }
+
+        $('#team_name').text(team.name);
+      });
       </script>
-      <form id="form" onsubmit="return invite(event);">
-        <div class="form-group">
-          <label for="email">Email address:</label>
-          <input type="email" id="email">
-        </div>
-        <button type="submit" class="button" onclick="return invite(event);">Submit</button>
-      </form>
-    </p>
-    <%= partial 'public/partials/_footer.html.erb' %>
-  </body>
+    <form id="form" onsubmit="return invite(event);">
+      <div>
+        <label for="name">name:</label>
+        <input type="text" id="name">
+      </div>
+      <div>
+        <label for="email">email:</label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+      <button type="submit" class="button" onclick="return invite(event);">Submit</button>
+    </form>
+  </p>
+  <%= partial 'public/partials/_footer.html.erb' %>
+</body>
+
 </html>

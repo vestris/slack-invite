@@ -1,85 +1,91 @@
-<html>
-  <head>
-    <title>Slack Invite Automation: Subscribe</title>
-    <%= partial 'public/partials/_head.html.erb' %>
-    <script src='https://checkout.stripe.com/checkout.js'></script>
-    <link rel='stylesheet' href='https://checkout.stripe.com/v3/checkout/button.css'></link>
-  </head>
-  <body>
-    <p class='icon'>
-      <a href='/'><img src='img/icon.png'></a>
-    </p>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Slack Invite Automation: Subscribe</title>
+  <%= partial 'public/partials/_head.html.erb' %>
+  <script src='https://checkout.stripe.com/checkout.js'></script>
+  <link rel='stylesheet' href='https://checkout.stripe.com/v3/checkout/button.css'>
+  </link>
+</head>
+
+<body>
+  <p class='icon'>
+    <a href='/'><img src='img/icon.png'></a>
+  </p>
+  <p>
+    <h1>Slack Invite Automation: Subscribe</h1>
+  </p>
+  <p id='messages' />
+  <p id='subscribe'>
+    <button id='subscribeButton' class='stripe-button-el'>
+      <span style='display: block; min-height: 30px;'>Pay $9.99 with Card</span>
+    </button>
     <p>
-      <h1>Slack Invite Automation: Subscribe</h1>
+      <img src='/img/stripe.png' width='119' height='26'></img>
     </p>
-    <p id='messages' />
-    <p id='subscribe'>
-      <button id='subscribeButton' class='stripe-button-el'>
-          <span style='display: block; min-height: 30px;'>Pay $9.99 with Card</span>
-      </button>
-      <p>
-        <img src='/img/stripe.png' width='119' height='26'></img>
-      </p>
-      <script>
-        $(document).ready(function() {
+    <script>
+    $(document).ready(function() {
 
-          <% team = Team.where(team_id: request['team_id']).first %>
+      <% team = Team.where(team_id: request['team_id']).first %>
 
-          var team = {
-            id: '<%= team && team.team_id %>',
-            name: '<%= team && team.name %>',
-            subscribed: <%= !!(team && team.subscribed) %>,
-          }
+      var team = {
+        id: '<%= team && team.team_id %>',
+        name: '<%= team && team.name %>',
+        subscribed: <%= !!(team && team.subscribed) %>,
+      }
 
-          if (team.subscribed) {
-            SlackInvite.message('Team <b>' + team.name + '</b> is already subscribed, thank you for your support.');
-            $('#subscribeButton').remove();
-          } else if (team.id && team.name) {
-            SlackInvite.message('Subscribe team <b>' + team.name + '</b> for $9.99/yr.');
-          } else {
-            $('#subscribeButton').remove();
-            SlackInvite.message('Missing or invalid team ID.');
-          }
+      if (team.subscribed) {
+        SlackInvite.message('Team <b>' + team.name + '</b> is already subscribed, thank you for your support.');
+        $('#subscribeButton').remove();
+      } else if (team.id && team.name) {
+        SlackInvite.message('Subscribe team <b>' + team.name + '</b> for $9.99/yr.');
+      } else {
+        $('#subscribeButton').remove();
+        SlackInvite.message('Missing or invalid team ID.');
+      }
 
-          var handler = StripeCheckout.configure({
-            key: '<%= ENV['STRIPE_API_PUBLISHABLE_KEY'] %>',
-            image: '/img/icon.png',
-            locale: 'auto',
-            token: function(token) {
-              $.ajax({
-                type: 'POST',
-                url: '/api/subscriptions',
-                data: {
-                  stripe_email: token.email,
-                  stripe_token: token.id,
-                  stripe_token_type: token.type,
-                  team_id: team.id
-                },
-                success: function(data) {
-                  SlackInvite.message('Team <b>' + team.name + '</b> successfully subscribed.<br><br>Thank you for your support!');
-                  $('#subscribeButton').remove();
-                },
-                error: SlackInvite.error
-              });
-            }
+      var handler = StripeCheckout.configure({
+        key: '<%= ENV['
+        STRIPE_API_PUBLISHABLE_KEY '] %>',
+        image: '/img/icon.png',
+        locale: 'auto',
+        token: function(token) {
+          $.ajax({
+            type: 'POST',
+            url: '/api/subscriptions',
+            data: {
+              stripe_email: token.email,
+              stripe_token: token.id,
+              stripe_token_type: token.type,
+              team_id: team.id
+            },
+            success: function(data) {
+              SlackInvite.message('Team <b>' + team.name + '</b> successfully subscribed.<br><br>Thank you for your support!');
+              $('#subscribeButton').remove();
+            },
+            error: SlackInvite.error
           });
+        }
+      });
 
-          $('#subscribeButton').on('click', function(e) {
-            var amount = 999;
-            handler.open({
-              name: 'Invite',
-              description: 'Yearly Subscription',
-              amount: amount
-            });
-            e.preventDefault();
-          });
-
-          $(window).on('popstate', function() {
-            handler.close();
-          });
+      $('#subscribeButton').on('click', function(e) {
+        var amount = 999;
+        handler.open({
+          name: 'Invite',
+          description: 'Yearly Subscription',
+          amount: amount
         });
-      </script>
-    </p>
-    <%= partial 'public/partials/_footer.html.erb' %>
-  </body>
+        e.preventDefault();
+      });
+
+      $(window).on('popstate', function() {
+        handler.close();
+      });
+    });
+    </script>
+  </p>
+  <%= partial 'public/partials/_footer.html.erb' %>
+</body>
+
 </html>

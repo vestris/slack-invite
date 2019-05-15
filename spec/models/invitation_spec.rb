@@ -36,7 +36,7 @@ describe Invitation do
   context 'to_slack' do
     it 'returns a set of interactive buttons' do
       expect(invitation.to_slack).to eq(
-        text: "Hi, #{invitation.email} is asking to join #{team.name}!",
+        text: "Hi, #{invitation.name_and_email} is asking to join #{team.name}!",
         attachments: [
           callback_id: 'invitation',
           fallback: 'You cannot approve invitations.',

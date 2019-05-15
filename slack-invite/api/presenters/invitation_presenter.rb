@@ -8,6 +8,7 @@ module Api
       property :id, type: String, desc: 'Invitation ID.'
       property :team_id, type: String, desc: 'Slack team ID.'
       property :email, type: String, desc: 'Invitation email.'
+      property :status, type: String, desc: 'Invitation status.'
 
       link :self do |opts|
         request = Grape::Request.new(opts[:env])

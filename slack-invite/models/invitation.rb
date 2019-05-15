@@ -2,6 +2,7 @@ class Invitation
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  field :name, type: String
   field :email, type: String
   field :sent_at, type: DateTime
   field :ignored_at, type: DateTime
@@ -13,7 +14,7 @@ class Invitation
   index({ email: 1, team_id: 1 }, unique: true)
 
   def to_s
-    "team=#{team_id}, email=#{email}"
+    "team=#{team_id}, name=#{name}, email=#{email}"
   end
 
   def send!
@@ -44,18 +45,36 @@ class Invitation
     update_attributes!(handled_by: by, ignored_at: Time.now.utc)
   end
 
+  def status
+    if ignored_at
+      'ignored'
+    elsif sent_at
+      'sent'
+    else
+      'requested'
+    end
+  end
+
+  def name_and_email
+    if name && !name.blank?
+      "#{name} <#{email}>"
+    else
+      email
+    end
+  end
+
   def to_slack
     if ignored_at
       {
-        text: "Invitation request by #{email} was ignored by #{handled_by&.slack_mention} on #{ignored_at}."
+        text: "Invitation request by #{name_and_email} was ignored by #{handled_by&.slack_mention} on #{ignored_at}."
       }
     elsif sent_at
       {
-        text: "Invitation to #{email} was sent by #{handled_by&.slack_mention} on #{sent_at}."
+        text: "Invitation to #{name_and_email} was sent by #{handled_by&.slack_mention} on #{sent_at}."
       }
     else
       {
-        text: "Hi, #{email} is asking to join #{team.name}!",
+        text: "Hi, #{name_and_email} is asking to join #{team.name}!",
         attachments: [
           callback_id: 'invitation',
           fallback: 'You cannot approve invitations.',
