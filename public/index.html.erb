@@ -1,36 +1,188 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+  <meta name="description" content="User Workflow in Slack helps users join a Slack team.">
+  <meta name="og:description" content="User Workflow in Slack helps users join a Slack team.">
+  <meta name="keywords" content="slack,invite,teams,workflow,users">
   <title>Slack Invite Automation: User Workflow in Slack</title>
-  <%= partial 'public/partials/_head.html.erb' %>
-  <script src="/scripts/register.js"></script>
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <meta name="description" content="User workflow in Slack." />
+  <%= partial 'public/partials/_head.html' %>
 </head>
 
-<body>
-  <p class='icon'>
-    <a href="/"><img src='img/icon.png'></a>
-  </p>
-  <p>
-    <h1>Slack Invite Automation</h1>
-  </p>
-  <p>
-    Help users join your Slack team.
-  </p>
-  <p>&nbsp;</p>
-  <p id='messages' />
-  <p id='register'>
-    <a href="https://slack.com/oauth/authorize?scope=bot,commands&client_id=<%= ENV['SLACK_CLIENT_ID'] %>"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
-  </p>
-  <p>
-    <small>
-      Free 2 week trial. Subscribe for $9.99/yr.
-    </small>
-  </p>
-  <%= partial 'public/partials/_footer.html.erb' %>
+<body id="page-top" class="index">
+  <!-- Navigation -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header page-scroll">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand page-scroll" href="#page-top">Slack Invite Automation</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="hidden">
+            <a href="#page-top"></a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#features">Features</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#oss">Open-Source</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#pricing">Pricing</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#contact">Help</a>
+          </li>
+          <li>
+            <a class="page-scroll" target="_blank" href="https://twitter.com/playplayio">Follow Us</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-icon">
+          <img class='icon' src="img/icon.png">
+        </div>
+        <div class="intro-lead-in">
+          <p>Wow, a form to join Slack!</p>
+          Help your users join your Slack team with or without admin approval.
+          <br><br>
+          <a class="add-to-slack" href="https://slack.com/oauth/authorize?scope=bot,commands&client_id=<%= ENV['SLACK_CLIENT_ID'] %>"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
+        </div>
+        <div>
+          <img src="img/screenshot.png" width="75%">
+        </div>
+      </div>
+    </div>
+  </header>
+  <section id="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h3 class="section-heading">Features</h3>
+          <h3 class="section-subheading">
+            <p>
+              Share the public page that lets users join Slack without an invitation.
+            </p>
+            <p>
+              <img src="img/invite.png" style="max-width: 640px;">
+            </p>
+            <p>
+              Optionally, turn on administrative approval with <b>set approval on</b>.
+            </p>
+            <p>
+              <img src="img/approval.png" style="max-width: 400px;">
+            </p>
+            <p>
+              Slack admins are DMed join requests that can be approved or ignored.
+            </p>
+            <p>
+              <img src="img/join.png" style="max-width: 400px;">
+            </p>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="oss">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h3 class="section-heading">Open-Source</h3>
+          <h3 class="section-subheading text-muted">
+            <p><a href="https://github.com/vestris/slack-invite" target="_blank"><img src="img/oss.png" width="75%"></a></p>
+            <p>The bot service is open-source under the MIT license.</p>
+            <p><a href="https://github.com/vestris/slack-invite" target="_blank">Fork us on Github</a></p>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="pricing">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h4 class="section-heading">Pricing</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h3 class="section-subheading text-muted">
+            <p>
+              You can try this bot for free for 2 weeks without a credit card or personal info. Subscribe for $9.99/yr thereafter.
+            </p>
+            <p>
+              We're not trying to make money, but we need it for hosting.
+            </p>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h4 class="section-heading">About and Help</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h3 class="section-subheading text-muted">
+            <p>
+              <a href='https://github.com/vestris/slack-invite'>Fork me on Github</a>,
+              <a href='https://github.com/vestris/slack-invite/issues/new'>open an issue</a>,
+              <a href='https://twitter.com/playplayio'>tweet at @playplayio</a>,
+              or <a href='mailto:dblock[at]dblock[dot]org'>e-mail dblock[at]dblock[dot]org</a>.
+            </p>
+            <p>
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= SlackRubyBotServer::Service.url %>" data-text="Help users join your Slack team with Slack Invite Automation." data-via="playplayio" data-size="large" data-related="SlackAPI">Tweet</a>
+            </p>
+            <p>
+              tl;dr: Slack Invite Automation does not want to know who you are and tries to collect just enough data to enable our services. Read our <a href='/privacy' target="_blank">Privacy Policy</a>.
+            </p>
+            <p>
+              <a href="https://www.vestris.com" target="_blank">&copy; Vestris LLC</a>
+            </p>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="register" class="plain" style="display: none;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="row spacer"></div>
+          <div id="messages" class="alert">Please wait ...</div>
+          <div class="alert">
+            Having trouble? <a href='https://twitter.com/playplayio' target="_blank">@playplayio</a> on Twitter
+            <br><br>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= SlackRubyBotServer::Service.url %>" data-text="Help users join your Slack team." data-via="playplayio" data-size="large" data-related="SlackAPI">Tweet</a>
+            <br><br>
+            <a href='<%= SlackRubyBotServer::Service.url %>'>Go back to invite.playplay.io.</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= partial 'public/partials/_scripts.html' %>
+  <!-- Slack -->
+  <script src="js/register.js"></script>
 </body>
 
 </html>

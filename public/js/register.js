@@ -2,8 +2,8 @@ $(document).ready(function() {
   // Slack OAuth
   var code = $.url('?code')
   if (code) {
+    SlackInvite.register();
     SlackInvite.message('Working, please wait ...');
-    $('#register').hide();
     $.ajax({
       type: "POST",
       url: "/api/teams",

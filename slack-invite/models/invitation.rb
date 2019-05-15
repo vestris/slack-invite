@@ -18,12 +18,16 @@ class Invitation
   end
 
   def send!
+    return if ignored_at || sent_at
+
     logger.info "SEND: #{self}"
     team.admin_slack_client.users_admin_invite(email: email)
     update_attributes!(sent_at: Time.now.utc)
   end
 
   def request!
+    return if ignored_at || sent_at
+
     logger.info "REQUEST: #{self}"
     team.users.admins.each do |admin|
       admin.dm!(to_slack)
@@ -31,7 +35,7 @@ class Invitation
   end
 
   def approve!(by)
-    raise 'Invitation already handled.' if handled_by
+    return if handled_by
 
     logger.info "APPROVE: #{self}, #{by}"
     update_attributes!(handled_by: by)
@@ -39,7 +43,7 @@ class Invitation
   end
 
   def ignore!(by)
-    raise 'Invitation already handled.' if handled_by
+    return if handled_by
 
     logger.info "IGNORE: #{self}, #{by}"
     update_attributes!(handled_by: by, ignored_at: Time.now.utc)
