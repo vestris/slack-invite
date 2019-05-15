@@ -7,6 +7,7 @@ class Team
   field :subscription_expired_at, type: DateTime
 
   field :trial_informed_at, type: DateTime
+  field :admin_token, type: String
 
   scope :api, -> { where(api: true) }
   scope :striped, -> { where(subscribed: true, :stripe_customer_id.ne => nil) }
@@ -27,6 +28,11 @@ class Team
 
   def slack_client
     @slack_client ||= Slack::Web::Client.new(token: token)
+  end
+
+  def admin_slack_client
+    raise 'Missing admin token, please authorize a user.' unless admin_token
+    @admin_slack_client ||= Slack::Web::Client.new(token: admin_token)
   end
 
   def slack_channels
@@ -160,12 +166,16 @@ EOS
   def inform_activated!
     return unless active? && activated_user_id && bot_user_id
     return unless active_changed? || activated_user_id_changed?
+
     im = slack_client.im_open(user: activated_user_id)
     slack_client.chat_postMessage(
       text: activated_text,
       channel: im['channel']['id'],
       as_user: true
     )
+
+    user = User.find_create_or_update_by_team_and_slack_id!(team_id, activated_user_id)
+    user.dm!(user.to_slack_auth_request)
   end
 
   def update_subscription_expired_at

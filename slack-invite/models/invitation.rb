@@ -14,6 +14,6 @@ class Invitation
   end
 
   def send!
-    team.slack_client.users_admin_invite(email: email)
+    team.admin_slack_client.users_admin_invite(email: email)
   end
 end

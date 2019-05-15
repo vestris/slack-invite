@@ -49,4 +49,23 @@ describe User do
       end
     end
   end
+  context '#authorize!' do
+    let!(:user) { Fabricate(:user) }
+    it 'retrieves a slack access token' do
+      expect(user.team.slack_client).to receive(:oauth_access).with(
+        client_id: nil,
+        client_secret: nil,
+        code: 'code',
+        redirect_uri: '/authorize'
+      ).and_return(
+        'access_token' => 'access-token',
+        'team_id' => user.team.team_id
+      )
+      expect(user).to receive(:dm!).with(
+        text: "Authorized!\nFor more information use `/invitebot help`."
+      )
+      user.authorize!('code')
+      expect(user.access_token).to eq 'access-token'
+    end
+  end
 end

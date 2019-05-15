@@ -14,6 +14,7 @@ describe Api do
         '/api/teams',
         '/api/teams/{id}',
         '/api/invitations',
+        '/api/users/{id}',
         '/api/subscriptions',
         '/api/credit_cards',
         '/api/slack/action',

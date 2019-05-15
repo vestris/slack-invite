@@ -59,7 +59,46 @@ class User
     team.slack_client.chat_postMessage(message.merge(channel: im['channel']['id'], as_user: true))
   end
 
+  def authorize!(code)
+    rc = team.slack_client.oauth_access(
+      client_id: ENV['SLACK_CLIENT_ID'],
+      client_secret: ENV['SLACK_CLIENT_SECRET'],
+      code: code,
+      redirect_uri: authorize_uri
+    )
+
+    raise SlackInvite::Error, "Please choose team \"#{team.name}\" instead of \"#{rc['team_name']}\"." unless rc['team_id'] == team.team_id
+
+    update_attributes!(access_token: rc['access_token'])
+
+    team.update_attributes!(admin_token: rc['access_token'])
+
+    dm!(text: "Authorized!\nFor more information use `/invitebot help`.")
+  end
+
   def to_s
     "user_id=#{user_id}, user_name=#{user_name}"
+  end
+
+  def authorize_uri
+    "#{SlackRubyBotServer::Service.url}/authorize"
+  end
+
+  def slack_oauth_url
+    "https://slack.com/oauth/authorize?scope=admin,client&client_id=#{ENV['SLACK_CLIENT_ID']}&redirect_uri=#{URI.encode(authorize_uri)}&team=#{team.team_id}&state=#{id}"
+  end
+
+  def to_slack_auth_request
+    {
+      text: 'Please authorize admin.',
+      attachments: [
+        fallback: slack_oauth_url,
+        actions: [
+          type: 'button',
+          text: 'Authorize',
+          url: slack_oauth_url
+        ]
+      ]
+    }
   end
 end

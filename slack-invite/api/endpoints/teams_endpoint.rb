@@ -44,8 +44,8 @@ module Api
             code: params[:code]
           )
 
-          token = rc['bot'] ? rc['bot']['bot_access_token'] : rc['access_token']
-          bot_user_id = rc['bot']['bot_user_id'] if rc['bot']
+          token = rc['bot']['bot_access_token']
+          bot_user_id = rc['bot']['bot_user_id']
           user_id = rc['user_id']
           access_token = rc['access_token']
           team = Team.where(token: token).first
