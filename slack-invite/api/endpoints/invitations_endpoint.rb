@@ -15,7 +15,7 @@ module Api
           Api::Middleware.logger.info "Inviting #{email} to team #{team}."
           # TODO: check if already member
           invitation = team.invitations.create!(email: email)
-          invitation.send!
+          team.require_approval ? invitation.request! : invitation.send!
           present invitation, with: Api::Presenters::InvitationPresenter
         end
       end

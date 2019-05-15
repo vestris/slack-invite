@@ -9,6 +9,10 @@ module SlackInvite
         --------
         /invitebot setup         - initial setup
 
+        Settings
+        --------
+        set approval [on|off]    - require admin approval to join
+
         DM
         --
         help                     - get this helpful message

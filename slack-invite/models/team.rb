@@ -1,5 +1,6 @@
 class Team
   field :api, type: Boolean, default: false
+  field :require_approval, type: Boolean, default: false
 
   field :stripe_customer_id, type: String
   field :subscribed, type: Boolean, default: false
@@ -130,7 +131,7 @@ EOS
   def trial_message
     [
       remaining_trial_days.zero? ? 'Your trial subscription has expired.' : "Your trial subscription expires in #{remaining_trial_days} day#{remaining_trial_days == 1 ? '' : 's'}.",
-      subscribe_text
+      subscribe_team_text
     ].join(' ')
   end
 

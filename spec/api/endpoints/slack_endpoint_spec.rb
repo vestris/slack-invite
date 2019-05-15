@@ -86,8 +86,37 @@ describe Api::Endpoints::SlackEndpoint do
           }.to_json
           expect(last_response.status).to eq 201
           expect(last_response.body).to eq({
-            message: team.subscribe_text
+            text: team.subscribe_text
           }.to_json)
+        end
+      end
+      context 'an invitation' do
+        let(:invitation) { Fabricate(:invitation, team: team) }
+        it 'approves' do
+          expect_any_instance_of(Invitation).to receive(:approve!)
+          post '/api/slack/action', payload: {
+            actions: [{ name: 'approve', value: invitation.id.to_s }],
+            user: { id: user.user_id },
+            team: { id: team.team_id },
+            channel: { id: 'C1', name: 'invite' },
+            token: token,
+            callback_id: 'invitation'
+          }.to_json
+          expect(last_response.status).to eq 201
+          expect(last_response.body).to eq(invitation.to_slack.to_json)
+        end
+        it 'ignores' do
+          expect_any_instance_of(Invitation).to receive(:ignore!)
+          post '/api/slack/action', payload: {
+            actions: [{ name: 'ignore', value: invitation.id.to_s }],
+            user: { id: user.user_id },
+            team: { id: team.team_id },
+            channel: { id: 'C1', name: 'invite' },
+            token: token,
+            callback_id: 'invitation'
+          }.to_json
+          expect(last_response.status).to eq 201
+          expect(last_response.body).to eq(invitation.to_slack.to_json)
         end
       end
     end

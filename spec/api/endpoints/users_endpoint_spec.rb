@@ -5,7 +5,7 @@ describe Api::Endpoints::UsersEndpoint do
 
   context 'users' do
     let(:user) { Fabricate(:user) }
-    it 'authorizes a user with moji' do
+    it 'authorizes a user' do
       expect_any_instance_of(User).to receive(:authorize!).with('code')
       client.user(id: user.id)._put(code: 'code')
     end

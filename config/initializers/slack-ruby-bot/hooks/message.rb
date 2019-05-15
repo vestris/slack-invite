@@ -6,7 +6,8 @@ module SlackRubyBot
         [
           SlackInvite::Commands::Help,
           SlackInvite::Commands::Info,
-          SlackInvite::Commands::Subscription
+          SlackInvite::Commands::Subscription,
+          SlackInvite::Commands::Set
         ]
       end
     end

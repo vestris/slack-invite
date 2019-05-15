@@ -7,12 +7,15 @@ class User
   field :access_token, type: String
 
   field :is_bot, type: Boolean, default: false
+  field :is_admin, type: Boolean, default: false
 
   belongs_to :team, index: true
   validates_presence_of :team
 
   index({ user_id: 1, team_id: 1 }, unique: true)
   index(user_name: 1, team_id: 1)
+
+  scope :admins, -> { where(is_admin: true) }
 
   def slack_mention
     "<@#{user_id}>"
@@ -35,8 +38,16 @@ class User
   def self.find_create_or_update_by_slack_id!(client, slack_id)
     instance = User.where(team: client.owner, user_id: slack_id).first
     instance_info = Hashie::Mash.new(client.web_client.users_info(user: slack_id)).user
-    instance.update_attributes!(user_name: instance_info.name, is_bot: instance_info.is_bot) if instance && (instance.user_name != instance_info.name || instance.is_bot != instance_info.is_bot)
-    instance ||= User.create!(team: client.owner, user_id: slack_id, user_name: instance_info.name, is_bot: instance_info.is_bot)
+    instance.update_attributes!(is_admin: instance_info.is_admin) if instance && instance.is_admin != instance_info.is_admin
+    instance.update_attributes!(is_bot: instance_info.is_bot) if instance && instance.is_bot != instance_info.is_bot
+    instance.update_attributes!(user_name: instance_info.name) if instance && instance.user_name != instance_info.name
+    instance ||= User.create!(
+      team: client.owner,
+      user_id: slack_id,
+      user_name: instance_info.name,
+      is_bot: instance_info.is_bot,
+      is_admin: instance_info.is_admin
+    )
     instance
   end
 

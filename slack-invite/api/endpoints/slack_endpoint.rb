@@ -55,6 +55,7 @@ module Api
               optional :domain, type: String
             end
             optional :actions, type: Array do
+              requires :name, type: String
               requires :value, type: String
             end
             optional :message, type: Hash do
@@ -70,14 +71,29 @@ module Api
           command.slack_verification_token!
 
           if command.team.subscription_expired?
-            { message: command.team.subscribe_text }
+            { text: command.team.subscribe_text }
           else
-            #             case command.action
-            #             # when TODO
-            #             else
-            #             end
-            { message: "Sorry, I don't understand the `#{command.callback_id}` command." }
+            case command.action
+            when 'invitation'
+              invitation = command.team.invitations.where(_id: command.arg).first
+              raise 'missing invitation' unless invitation
+
+              case command.name
+              when 'ignore' then
+                invitation.ignore!(command.user)
+                invitation.to_slack
+              when 'approve' then
+                invitation.approve!(command.user)
+                invitation.to_slack
+              else
+                { text: "Sorry, I don't understand the `#{command.action}##{command.name}` command." }
+              end
+            else
+              { text: "Sorry, I don't understand the `#{command.action}` command." }
+            end
           end
+        rescue StandardError => e
+          { text: e.message }
         end
       end
     end
