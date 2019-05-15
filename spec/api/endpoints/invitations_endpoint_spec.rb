@@ -4,7 +4,7 @@ describe Api::Endpoints::InvitationsEndpoint do
   include Api::Test::EndpointTest
 
   context 'invitations' do
-    let!(:team) { Fabricate(:team) }
+    let!(:team) { Fabricate(:team, admin_token: 'token') }
     it 'creates a invitation' do
       expect_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(
         email: 'email@example.com'

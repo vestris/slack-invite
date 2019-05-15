@@ -56,7 +56,7 @@ describe User do
         client_id: nil,
         client_secret: nil,
         code: 'code',
-        redirect_uri: '/authorize'
+        redirect_uri: 'https://invite.playplay.io/authorize'
       ).and_return(
         'access_token' => 'access-token',
         'team_id' => user.team.team_id

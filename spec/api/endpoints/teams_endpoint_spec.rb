@@ -40,6 +40,8 @@ describe Api::Endpoints::TeamsEndpoint do
             client_secret: 'client_secret'
           )
         ).and_return(oauth_access)
+        # notification to authorize user
+        allow_any_instance_of(User).to receive(:dm!)
       end
       after do
         ENV.delete('SLACK_CLIENT_ID')
