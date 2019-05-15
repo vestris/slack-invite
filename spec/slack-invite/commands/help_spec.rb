@@ -7,7 +7,10 @@ describe SlackInvite::Commands::Help do
   context 'subscribed team' do
     let!(:team) { Fabricate(:team, subscribed: true) }
     it 'help' do
-      expect(client).to receive(:say).with(channel: 'channel', text: SlackInvite::Commands::Help::HELP)
+      expect(client).to receive(:say).with(channel: 'channel', text: [
+        SlackInvite::Commands::Help::HELP,
+        team.invite_text
+      ].join("\n"))
       message_hook.call(client, Hashie::Mash.new(channel: 'channel', text: "#{SlackRubyBot.config.user} help"))
     end
   end
@@ -16,6 +19,7 @@ describe SlackInvite::Commands::Help do
     it 'help' do
       expect(client).to receive(:say).with(channel: 'channel', text: [
         SlackInvite::Commands::Help::HELP,
+        team.invite_text,
         [team.send(:trial_expired_text), team.send(:subscribe_team_text)].join(' ')
       ].join("\n"))
       message_hook.call(client, Hashie::Mash.new(channel: 'channel', text: "#{SlackRubyBot.config.user} help"))
@@ -26,6 +30,7 @@ describe SlackInvite::Commands::Help do
     it 'help' do
       expect(client).to receive(:say).with(channel: 'channel', text: [
         SlackInvite::Commands::Help::HELP,
+        team.invite_text,
         team.send(:subscribe_team_text)
       ].join("\n"))
       message_hook.call(client, Hashie::Mash.new(channel: 'channel', text: "#{SlackRubyBot.config.user} help"))

@@ -59,6 +59,14 @@ class User
     team.slack_client.chat_postMessage(message.merge(channel: im['channel']['id'], as_user: true))
   end
 
+  def authorized_text
+    [
+      'Authorized!',
+      team.invite_text,
+      'For more information use `/invitebot help`.'
+    ].compact.join("\n")
+  end
+
   def authorize!(code)
     rc = team.slack_client.oauth_access(
       client_id: ENV['SLACK_CLIENT_ID'],
@@ -73,7 +81,7 @@ class User
 
     team.update_attributes!(admin_token: rc['access_token'])
 
-    dm!(text: "Authorized!\nFor more information use `/invitebot help`.")
+    dm!(text: authorized_text)
   end
 
   def to_s
@@ -90,7 +98,7 @@ class User
 
   def to_slack_auth_request
     {
-      text: 'Please authorize admin.',
+      text: 'Please authorize your account to send user invites.',
       attachments: [
         fallback: slack_oauth_url,
         actions: [

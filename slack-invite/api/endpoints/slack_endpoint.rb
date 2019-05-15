@@ -21,18 +21,17 @@ module Api
           command.slack_verification_token!
 
           response = if command.team.subscription_expired?
-                       { message: command.team.subscribe_text }
+                       { text: command.team.subscribe_text }
                      else
-                       #                        case command.action
-                       #                        # when 'TODO'
-                       #                        when 'todo' then
-                       #                           # TODO
-                       #                        else
-                       #                       end
-                       { message: "Sorry, I don't understand the `#{command.action}` command." }
-                     end
+                       case command.action
+                       when 'setup' then
+                         command.user.to_slack_auth_request
+                       else
+                         { text: "Sorry, I don't understand the `#{command.action}` command." }
+                       end
+          end
 
-          response.merge(user: command.user_id, channel: command.channel_id)
+          response.merge(response_type: 'ephemeral')
         end
 
         desc 'Respond to interactive slack buttons and actions.'

@@ -12,7 +12,13 @@ describe Api::Endpoints::UsersEndpoint do
     it 'assigns an access token' do
       access = { 'access_token' => 'token', 'team_id' => user.team.team_id }
       expect_any_instance_of(Slack::Web::Client).to receive(:oauth_access).with(hash_including(code: 'code')).and_return(access)
-      expect_any_instance_of(User).to receive(:dm!).with(text: "Authorized!\nFor more information use `/invitebot help`.")
+      expect_any_instance_of(User).to receive(:dm!).with(
+        text: [
+          'Authorized!',
+          "Your users can join at https://invite.playplay.io/invite?team_id=#{user.team.team_id}.",
+          'For more information use `/invitebot help`.'
+        ].join("\n")
+      )
       client.user(id: user.id)._put(code: 'code')
       expect(user.reload.access_token).to eq 'token'
     end

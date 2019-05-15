@@ -24,10 +24,22 @@ describe Api::Endpoints::SlackEndpoint do
         response = JSON.parse(last_response.body)
         expect(response['error']).to eq 'Message token is not coming from Slack.'
       end
-      it 'generates invitebot options' do
+      it 'generates a setup link' do
         post '/api/slack/command',
              command: '/invitebot',
-             text: 'help',
+             text: 'setup',
+             channel_id: 'C1',
+             channel_name: 'channel',
+             user_id: user.user_id,
+             team_id: user.team.team_id,
+             token: token
+        expect(last_response.status).to eq 201
+        expect(last_response.body).to eq(user.to_slack_auth_request.merge(response_type: 'ephemeral').to_json)
+      end
+      it 'errors on all other commands' do
+        post '/api/slack/command',
+             command: '/invitebot',
+             text: 'foobar',
              channel_id: 'C1',
              channel_name: 'channel',
              user_id: user.user_id,
@@ -35,9 +47,8 @@ describe Api::Endpoints::SlackEndpoint do
              token: token
         expect(last_response.status).to eq 201
         expect(last_response.body).to eq({
-          message: "Sorry, I don't understand the `help` command.",
-          user: user.user_id,
-          channel: 'C1'
+          text: "Sorry, I don't understand the `foobar` command.",
+          response_type: 'ephemeral'
         }.to_json)
       end
       context 'subscription expired' do
@@ -53,9 +64,8 @@ describe Api::Endpoints::SlackEndpoint do
                token: token
           expect(last_response.status).to eq 201
           expect(last_response.body).to eq({
-            message: team.subscribe_text,
-            user: user.user_id,
-            channel: 'C1'
+            text: team.subscribe_text,
+            response_type: 'ephemeral'
           }.to_json)
         end
       end

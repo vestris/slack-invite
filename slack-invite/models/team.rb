@@ -94,6 +94,18 @@ class Team
     [trial_expired_text, subscribe_team_text].compact.join(' ')
   end
 
+  def invite_link
+    "#{SlackRubyBotServer::Service.url}/invite?team_id=#{team_id}"
+  end
+
+  def invite_text
+    if admin_token
+      "Your users can join at #{invite_link}."
+    else
+      'Please use `/invitebot setup` next.'
+    end
+  end
+
   def update_cc_text
     "Update your credit card info at #{SlackRubyBotServer::Service.url}/update_cc?team_id=#{team_id}."
   end

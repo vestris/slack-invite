@@ -62,7 +62,11 @@ describe User do
         'team_id' => user.team.team_id
       )
       expect(user).to receive(:dm!).with(
-        text: "Authorized!\nFor more information use `/invitebot help`."
+        text: [
+          'Authorized!',
+          "Your users can join at https://invite.playplay.io/invite?team_id=#{user.team.team_id}.",
+          'For more information use `/invitebot help`.'
+        ].join("\n")
       )
       user.authorize!('code')
       expect(user.access_token).to eq 'access-token'
