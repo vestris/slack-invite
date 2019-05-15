@@ -20,3 +20,22 @@ body {
 .image img {
   width: 100%;
 }
+
+.button {
+  background-color: orange;
+  border: none;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  cursor:pointer;
+}
+
+input[type=email] {
+  width: 300px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}

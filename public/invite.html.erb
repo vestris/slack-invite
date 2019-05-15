@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Slack Invite Automation: Get Invited</title>
+    <%= partial 'public/partials/_head.html.erb' %>
+    <script src="/scripts/invite.js"></script>
+  </head>
+  <body>
+    <p class='icon'>
+      <a href='/'><img src='img/icon.png'></a>
+    </p>
+    <p>
+      <h1 id='team_caption'>Slack Invite Automation: Get Invited</h1>
+    </p>
+    <p id='messages' />
+    <p id='invite'>
+      <script>
+        $(document).ready(function() {
+
+          <% team = Team.where(team_id: request['team_id']).first %>
+
+          var team = {
+            id: '<%= team && team.team_id %>',
+            name: '<%= team && team.name %>'
+          }
+
+          if (! team.name) {
+  	        SlackInvite.message("Missing or invalid team ID.");
+	          return;
+          }
+
+          $('#team_caption').text('Get Invited to Team ' + team.name + '!')
+        });
+      </script>
+      <form id="form" onsubmit="return invite(event);">
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input type="email" id="email">
+        </div>
+        <button type="submit" class="button" onclick="return invite(event);">Submit</button>
+      </form>
+    </p>
+    <%= partial 'public/partials/_footer.html.erb' %>
+  </body>
+</html>

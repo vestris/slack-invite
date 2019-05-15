@@ -95,6 +95,7 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    irb (1.0.0)
     jaro_winkler (1.5.2)
     kaminari-core (1.1.1)
     kaminari-grape (1.0.1)
@@ -267,6 +268,7 @@ DEPENDENCIES
   grape
   hashie
   hyperclient
+  irb
   mongoid
   mongoid-scroll
   mongoid-shell

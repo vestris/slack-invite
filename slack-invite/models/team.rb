@@ -13,6 +13,7 @@ class Team
   scope :trials, -> { where(subscribed: false) }
 
   has_many :users, dependent: :destroy
+  has_many :invitations, dependent: :destroy
 
   before_validation :update_subscription_expired_at
   after_update :inform_subscribed_changed!

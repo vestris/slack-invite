@@ -1,4 +1,5 @@
 require 'slack-invite/api/endpoints/teams_endpoint'
+require 'slack-invite/api/endpoints/invitations_endpoint'
 require 'slack-invite/api/endpoints/subscriptions_endpoint'
 require 'slack-invite/api/endpoints/status_endpoint'
 require 'slack-invite/api/endpoints/credit_cards_endpoint'

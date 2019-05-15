@@ -13,6 +13,7 @@ describe Api do
         '/api/status',
         '/api/teams',
         '/api/teams/{id}',
+        '/api/invitations',
         '/api/subscriptions',
         '/api/credit_cards',
         '/api/slack/action',

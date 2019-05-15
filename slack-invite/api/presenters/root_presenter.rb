@@ -21,17 +21,6 @@ module Api
         "#{base_url(opts)}/api/credit_cards"
       end
 
-      link :user do |opts|
-        {
-          href: "#{base_url(opts)}/api/users/{id}",
-          templated: true
-        }
-      end
-
-      link :users do |opts|
-        "#{base_url(opts)}/api/users"
-      end
-
       link :teams do |opts|
         {
           href: "#{base_url(opts)}/api/teams/#{link_params(Api::Helpers::PaginationParameters::ALL, :active)}",
@@ -43,6 +32,12 @@ module Api
         {
           href: "#{base_url(opts)}/api/teams/{id}",
           templated: true
+        }
+      end
+
+      link :invitations do |opts|
+        {
+          href: "#{base_url(opts)}/api/invitations"
         }
       end
 

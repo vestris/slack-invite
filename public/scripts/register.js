@@ -11,7 +11,7 @@ $(document).ready(function() {
         code: code
       },
       success: function(data) {
-        SlackInvite.message('Team successfully registered!<br><br>Try <b>/invite me</b> to add invitebot to your profile.');
+        SlackInvite.message('Team successfully registered!<br><br>Try <b>/invitebot me</b> to add invitebot to your profile.');
       },
       error: SlackInvite.error
     });
