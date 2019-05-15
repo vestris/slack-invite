@@ -1,19 +1,19 @@
 # Contributing to SlackInvite
 
-This project is work of [many contributors](https://github.com/dblock/slack-invite/graphs/contributors).
+This project is work of [many contributors](https://github.com/vestris/slack-invite/graphs/contributors).
 
-You're encouraged to submit [pull requests](https://github.com/dblock/slack-invite/pulls), [propose features and discuss issues](https://github.com/dblock/slack-invite/issues).
+You're encouraged to submit [pull requests](https://github.com/vestris/slack-invite/pulls), [propose features and discuss issues](https://github.com/vestris/slack-invite/issues).
 
 In the examples below, substitute your Github username for `contributor` in URLs.
 
 ## Fork the Project
 
-Fork the [project on Github](https://github.com/dblock/slack-invite) and check out your copy.
+Fork the [project on Github](https://github.com/vestris/slack-invite) and check out your copy.
 
 ```
 git clone https://github.com/contributor/slack-invite.git
 cd slack-invite
-git remote add upstream https://github.com/dblock/slack-invite.git
+git remote add upstream https://github.com/vestris/slack-invite.git
 ```
 
 ## Create a Topic Branch
@@ -102,7 +102,7 @@ git push origin my-feature-branch -f
 Update the [CHANGELOG](CHANGELOG.md) with the pull request number. A typical entry looks as follows.
 
 ```
-* [#123](https://github.com/dblock/slack-invite/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
+* [#123](https://github.com/vestris/slack-invite/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
 ```
 
 Amend your previous commit and force push the changes.

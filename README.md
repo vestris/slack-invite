@@ -1,7 +1,7 @@
 Slack Invite Automation
 =======================
 
-[![Build Status](https://travis-ci.org/dblock/slack-invite.svg?branch=master)](https://travis-ci.org/dblock/slack-invite)
+[![Build Status](https://travis-ci.org/vestris/slack-invite.svg?branch=master)](https://travis-ci.org/vestris/slack-invite)
 
 Slack Invite Automation. Hosted at [invite.playplay.io](https://invite.playplay.io/).
 
