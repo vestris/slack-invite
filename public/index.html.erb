@@ -63,8 +63,8 @@
           <br><br>
           <a class="add-to-slack" href="https://slack.com/oauth/authorize?scope=bot,commands&client_id=<%= ENV['SLACK_CLIENT_ID'] %>"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
         </div>
-        <div>
-          <img src="img/screenshot.png" width="75%">
+        <div class="image">
+          <img src="img/screenshot.png" style="max-width: 800px;">
         </div>
       </div>
     </div>
@@ -78,19 +78,19 @@
             <p>
               Share the public page that lets users join Slack without an invitation.
             </p>
-            <p>
+            <p class="image">
               <img src="img/invite.png" style="max-width: 640px;">
             </p>
             <p>
               Optionally, turn on administrative approval with <b>set approval on</b>.
             </p>
-            <p>
+            <p class="image">
               <img src="img/approval.png" style="max-width: 400px;">
             </p>
             <p>
               Slack admins are DMed join requests that can be approved or ignored.
             </p>
-            <p>
+            <p class="image">
               <img src="img/join.png" style="max-width: 400px;">
             </p>
           </h3>
@@ -127,7 +127,7 @@
         <div class="col-lg-12 text-center">
           <h3 class="section-heading">Open-Source</h3>
           <h3 class="section-subheading text-muted">
-            <p><a href="https://github.com/vestris/slack-invite" target="_blank"><img src="img/oss.png" style="max-width: 640px;"></a></p>
+            <p class="image"><a href="https://github.com/vestris/slack-invite" target="_blank"><img src="img/oss.png" style="max-width: 640px;"></a></p>
             <p>The bot service is open-source under the MIT license.</p>
             <p><a href="https://github.com/vestris/slack-invite" target="_blank">Fork us on Github</a></p>
           </h3>
