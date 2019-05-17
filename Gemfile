@@ -15,6 +15,7 @@ gem 'rack-server-pages'
 gem 'slack-ruby-bot-server'
 gem 'slack-ruby-bot-server-mailchimp'
 gem 'stripe', '~> 1.58.0'
+gem 'time_ago_in_words'
 gem 'unicorn'
 gem 'wannabe_bool'
 

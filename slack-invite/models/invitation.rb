@@ -70,11 +70,11 @@ class Invitation
   def to_slack
     if ignored_at
       {
-        text: "Invitation request by #{name_and_email} was ignored by #{handled_by&.slack_mention} on #{ignored_at}."
+        text: "Invitation request by #{name_and_email} was ignored by #{handled_by&.slack_mention} #{ignored_at.to_time.ago_in_words}."
       }
     elsif sent_at
       {
-        text: "Invitation to #{name_and_email} was sent by #{handled_by&.slack_mention} on #{sent_at}."
+        text: "Invitation to #{name_and_email} was sent by #{handled_by&.slack_mention} #{sent_at.to_time.ago_in_words}."
       }
     else
       {
