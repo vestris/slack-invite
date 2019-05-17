@@ -25,6 +25,10 @@
   width: 100%;
 }
 
+.section-subheading div {
+  margin-bottom: 20px;
+}
+
 .button {
   background-color: orange;
   border: none;
