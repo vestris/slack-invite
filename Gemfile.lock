@@ -133,6 +133,9 @@ GEM
       mustermann (~> 1.0.0)
     net-http-digest_auth (1.4.1)
     netrc (0.11.0)
+    newrelic-slack-ruby-bot (0.2.2)
+      newrelic_rpm
+      slack-ruby-bot (>= 0.10.5)
     newrelic_rpm (6.2.0.354)
     nio4r (2.3.1)
     nokogiri (1.10.8)
@@ -274,6 +277,7 @@ DEPENDENCIES
   mongoid
   mongoid-scroll
   mongoid-shell
+  newrelic-slack-ruby-bot
   newrelic_rpm
   nokogiri
   rack-robotz
