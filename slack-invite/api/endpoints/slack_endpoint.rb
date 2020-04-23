@@ -83,8 +83,19 @@ module Api
                 invitation.ignore!(command.user)
                 invitation.to_slack
               when 'approve' then
-                invitation.approve!(command.user)
-                invitation.to_slack
+                begin
+                  invitation.approve!(command.user)
+                  invitation.to_slack
+                rescue Slack::Web::Api::Errors::SlackError => e
+                  case e.message
+                  when 'already_invited' then
+                    { text: "User #{invitation.name_and_email} has already been invited." }
+                  when 'already_in_team_invited_user', 'already_in_team' then
+                    { text: "User #{invitation.name_and_email} is already a member of the team." }
+                  else
+                    { text: e.message }
+                  end
+                end
               else
                 { text: "Sorry, I don't understand the `#{command.action}##{command.name}` command." }
               end
