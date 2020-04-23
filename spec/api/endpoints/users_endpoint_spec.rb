@@ -21,6 +21,8 @@ describe Api::Endpoints::UsersEndpoint do
       )
       client.user(id: user.id)._put(code: 'code')
       expect(user.reload.access_token).to eq 'token'
+      expect(user.team.admin_token).to eq 'token'
+      expect(user.team.admin_user).to eq user
     end
     it 'verifies team' do
       access = { 'access_token' => 'token', 'team_name' => 'Team Name', 'team_id' => 'invalid' }

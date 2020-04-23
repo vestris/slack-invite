@@ -8,7 +8,9 @@ class Team
   field :subscription_expired_at, type: DateTime
 
   field :trial_informed_at, type: DateTime
+
   field :admin_token, type: String
+  belongs_to :admin_user, class_name: 'User', inverse_of: nil, index: true, optional: true
 
   scope :api, -> { where(api: true) }
   scope :striped, -> { where(subscribed: true, :stripe_customer_id.ne => nil) }
@@ -188,7 +190,7 @@ EOS
     )
 
     user = User.find_create_or_update_by_team_and_slack_id!(team_id, activated_user_id)
-    user.dm!(user.to_slack_auth_request)
+    user.dm_auth_request!
   end
 
   def update_subscription_expired_at

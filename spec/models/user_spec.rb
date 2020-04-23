@@ -2,19 +2,22 @@ require 'spec_helper'
 
 describe User do
   context '#find_by_slack_mention!' do
-    let!(:user) { Fabricate(:user) }
+    let(:team) { Fabricate(:team) }
+    let(:web_client) { double(Slack::Web::Client, users_info: nil) }
+    let(:client) { double(Slack::RealTime::Client, owner: team, web_client: web_client) }
+    let!(:user) { Fabricate(:user, team: team) }
     it 'finds by slack id' do
-      expect(User.find_by_slack_mention!(user.team, "<@#{user.user_id}>")).to eq user
+      expect(User.find_by_slack_mention!(client, "<@#{user.user_id}>")).to eq user
     end
     it 'finds by username' do
-      expect(User.find_by_slack_mention!(user.team, user.user_name)).to eq user
+      expect(User.find_by_slack_mention!(client, user.user_name)).to eq user
     end
     it 'finds by username is case-insensitive' do
-      expect(User.find_by_slack_mention!(user.team, user.user_name.capitalize)).to eq user
+      expect(User.find_by_slack_mention!(client, user.user_name.capitalize)).to eq user
     end
     it 'requires a known user' do
       expect {
-        User.find_by_slack_mention!(user.team, '<@nobody>')
+        User.find_by_slack_mention!(client, '<@nobody>')
       }.to raise_error SlackInvite::Error, "I don't know who <@nobody> is!"
     end
   end

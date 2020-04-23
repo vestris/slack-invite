@@ -12,6 +12,7 @@ module SlackInvite
         Settings
         --------
         set approval [on|off]    - require admin approval to join
+        set sender @username     - set admin that sends invitations
 
         DM
         --

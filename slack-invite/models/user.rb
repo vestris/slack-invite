@@ -21,10 +21,40 @@ class User
     "<@#{user_id}>"
   end
 
-  def self.find_by_slack_mention!(team, user_name)
-    query = user_name =~ /^<@(.*)>$/ ? { user_id: ::Regexp.last_match[1] } : { user_name: ::Regexp.new("^#{user_name}$", 'i') }
-    user = User.where(query.merge(team: team)).first
+  def self.slack_mention?(user_name)
+    slack_id = ::Regexp.last_match[1] if user_name =~ /^<[@!](.*)>$/
+    slack_id = nil if %w[here channel].include?(slack_id)
+    slack_id
+  end
+
+  def self.find_by_slack_mention!(client, user_name)
+    team = client.owner
+    slack_id = slack_mention?(user_name)
+    user = if slack_id
+             team.users.where(user_id: slack_id).first
+           else
+             regexp = ::Regexp.new("^#{user_name}$", 'i')
+             User.where(team: team, user_name: regexp).first
+    end
+    unless user
+      begin
+        users_info = client.web_client.users_info(user: slack_id || "@#{user_name}")
+        info = Hashie::Mash.new(users_info).user if users_info
+        if info
+          user = User.create!(
+            team: team,
+            user_id: info.id,
+            user_name: info.name,
+            is_admin: info.is_admin,
+            is_bot: info.is_bot
+          )
+        end
+      rescue Slack::Web::Api::Errors::SlackError => e
+        raise e unless e.message == 'user_not_found'
+      end
+    end
     raise SlackInvite::Error, "I don't know who #{user_name} is!" unless user
+
     user
   end
 
@@ -70,6 +100,10 @@ class User
     team.slack_client.chat_postMessage(message.merge(channel: im['channel']['id'], as_user: true))
   end
 
+  def dm_auth_request!
+    dm!(to_slack_auth_request)
+  end
+
   def authorized_text
     [
       'Authorized!',
@@ -90,7 +124,7 @@ class User
 
     update_attributes!(access_token: rc['access_token'])
 
-    team.update_attributes!(admin_token: rc['access_token'])
+    team.update_attributes!(admin_user: self, admin_token: rc['access_token'])
 
     dm!(text: authorized_text)
   end

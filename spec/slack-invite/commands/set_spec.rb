@@ -20,7 +20,8 @@ describe SlackInvite::Commands::Set do
     end
     it 'shows current settings' do
       expect(message: "#{SlackRubyBot.config.user} set").to respond_with_slack_message([
-        "Approval to join team #{team.name} is not required."
+        "Approval to join team #{team.name} is not required.",
+        "Invitations to join team #{team.name} are sent on behalf of your Slack admin."
       ].join("\n"))
     end
     context 'approval' do
@@ -39,7 +40,7 @@ describe SlackInvite::Commands::Set do
         team.update_attributes!(require_approval: true)
         expect(message: "#{SlackRubyBot.config.user} set approval false").to respond_with_slack_message([
           "Approval to join team #{team.name} is required.",
-          'Only a Slack admin can change that, sorry.'
+          'Only a Slack admin can change approval, sorry.'
         ].join("\n"))
         expect(team.reload.require_approval).to be true
       end
@@ -61,6 +62,54 @@ describe SlackInvite::Commands::Set do
               "Approval to join team #{team.name} is now required."
             )
             expect(team.reload.require_approval).to be true
+          end
+        end
+      end
+    end
+    context 'sender' do
+      it 'shows default value of sender' do
+        expect(message: "#{SlackRubyBot.config.user} set sender").to respond_with_slack_message(
+          "Invitations to join team #{team.name} are sent on behalf of your Slack admin."
+        )
+      end
+      it 'shows admin sender' do
+        team.update_attributes!(admin_user: user)
+        expect(message: "#{SlackRubyBot.config.user} set sender").to respond_with_slack_message(
+          "Invitations to join team #{team.name} are sent on behalf of #{user.user_name}."
+        )
+      end
+      context 'with another user' do
+        let!(:user2) { Fabricate(:user, team: team) }
+        it 'does not change sender' do
+          team.update_attributes!(admin_user: user)
+          expect(message: "#{SlackRubyBot.config.user} set sender #{user2.slack_mention}").to respond_with_slack_message([
+            "Invitations to join team #{team.name} are sent on behalf of #{user.user_name}.",
+            'Only a Slack admin can change who sends invitations, sorry.'
+          ].join("\n"))
+          expect(team.reload.admin_user).to eq user
+        end
+        context 'admin user' do
+          let(:user) { Fabricate(:user, team: team, is_admin: true) }
+          let(:admin_user) { Fabricate(:user, team: team, is_admin: true) }
+          it 'sets sender' do
+            team.update_attributes!(admin_user: user)
+            expect_any_instance_of(User).to receive(:dm_auth_request!)
+            expect(message: "#{SlackRubyBot.config.user} set sender #{admin_user.slack_mention}").to respond_with_slack_message(
+              "I've DMed #{admin_user.user_name} for authorization."
+            )
+          end
+          it 'requires an admin user' do
+            team.update_attributes!(admin_user: user)
+            expect_any_instance_of(User).to_not receive(:dm_auth_request!)
+            expect(message: "#{SlackRubyBot.config.user} set sender #{user2.slack_mention}").to respond_with_slack_message(
+              "User #{user2.user_name} must be a Slack admin."
+            )
+          end
+          it 'shows sender' do
+            team.update_attributes!(admin_user: user2)
+            expect(message: "#{SlackRubyBot.config.user} set sender #{user2.slack_mention}").to respond_with_slack_message(
+              "Invitations to join team #{team.name} are sent on behalf of #{user2.user_name}."
+            )
           end
         end
       end
