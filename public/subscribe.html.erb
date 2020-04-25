@@ -46,8 +46,7 @@
       }
 
       var handler = StripeCheckout.configure({
-        key: '<%= ENV['
-        STRIPE_API_PUBLISHABLE_KEY '] %>',
+        key: '<%= ENV['STRIPE_API_PUBLISHABLE_KEY'] %>',
         image: '/img/icon.png',
         locale: 'auto',
         token: function(token) {
