@@ -5,7 +5,7 @@ ENV['RACK_ENV'] ||= 'development'
 require 'bundler/setup'
 Bundler.require :default, ENV['RACK_ENV']
 
-require 'slack-ruby-bot-server'
+require 'slack-ruby-bot-server-rtm'
 require 'slack-invite'
 
 SlackRubyBotServer.configure do |config|

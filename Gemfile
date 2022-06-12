@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.6.2'
+ruby '2.6.6'
 
 gem 'faker'
 gem 'grape'
@@ -13,8 +13,8 @@ gem 'newrelic_rpm'
 gem 'nokogiri'
 gem 'rack-robotz'
 gem 'rack-server-pages'
-gem 'slack-ruby-bot-server'
 gem 'slack-ruby-bot-server-mailchimp'
+gem 'slack-ruby-bot-server-rtm'
 gem 'stripe', '~> 1.58.0'
 gem 'time_ago_in_words'
 gem 'unicorn'
@@ -32,7 +32,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'database_cleaner'
+  gem 'database_cleaner-mongoid'
   gem 'fabrication'
   gem 'hyperclient'
   gem 'rack-test'
