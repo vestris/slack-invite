@@ -29,7 +29,7 @@ Everybody seems to struggle with this.
 
 ## Copyright & License
 
-Copyright [Daniel Doubrovkine, Vestris LLC](https://www.vestris.com), 2019
+Copyright [Daniel Doubrovkine, Vestris LLC](https://www.vestris.com), 2019-2022
 
 [MIT License](LICENSE)
 
