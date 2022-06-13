@@ -20,7 +20,7 @@ shared_examples_for 'a cursor api' do |model|
       response = client.send(model_ps, cursor_params.merge(size: 2))
       expect(response._links.self._url).to eq "http://example.org/api/#{model_ps}?#{cursor_params.merge(size: 2).to_query}"
       expect(response._links.next._url).to start_with "http://example.org/api/#{model_ps}?"
-      expect(response._links.next._url).to match(/cursor\=.*%3A\h*/)
+      expect(response._links.next._url).to match(/cursor=.*%3A\h*/)
     end
 
     it 'paginates over the entire collection' do
@@ -28,9 +28,12 @@ shared_examples_for 'a cursor api' do |model|
       next_cursor = { size: 3 }
       loop do
         response = client.send(model_ps, next_cursor.merge(cursor_params))
-        models_ids.concat(response.map { |instance| instance._links.self._url.gsub("http://example.org/api/#{model_ps}/", '') })
+        models_ids.concat(response.map do |instance|
+                            instance._links.self._url.gsub("http://example.org/api/#{model_ps}/", '')
+                          end)
         break unless response._links[:next]
-        next_cursor = Hash[CGI.parse(URI.parse(response._links.next._url).query).map { |a| [a[0], a[1][0]] }]
+
+        next_cursor = CGI.parse(URI.parse(response._links.next._url).query).map { |a| [a[0], a[1][0]] }.to_h
       end
       expect(models_ids.uniq.count).to eq model.all.count
     end
@@ -40,9 +43,12 @@ shared_examples_for 'a cursor api' do |model|
       next_cursor = { size: 3, offset: 3 }
       loop do
         response = client.send(model_ps, next_cursor.merge(cursor_params))
-        models_ids.concat(response.map { |instance| instance._links.self._url.gsub("http://example.org/api/#{model_ps}/", '') })
+        models_ids.concat(response.map do |instance|
+                            instance._links.self._url.gsub("http://example.org/api/#{model_ps}/", '')
+                          end)
         break unless response._links[:next]
-        next_cursor = Hash[CGI.parse(URI.parse(response._links.next._url).query).map { |a| [a[0], a[1][0]] }]
+
+        next_cursor = CGI.parse(URI.parse(response._links.next._url).query).map { |a| [a[0], a[1][0]] }.to_h
       end
       expect(models_ids.uniq.count).to eq model.all.count - 3
     end

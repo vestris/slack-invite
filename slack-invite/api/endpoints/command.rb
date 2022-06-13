@@ -2,7 +2,8 @@ module Api
   module Endpoints
     class SlackEndpointCommands
       class Command
-        attr_reader :action, :name, :arg, :channel_id, :channel_name, :user_id, :team_id, :text, :image_url, :token, :response_url, :trigger_id, :type, :submission, :message_ts
+        attr_reader :action, :name, :arg, :channel_id, :channel_name, :user_id, :team_id, :text, :image_url, :token,
+                    :response_url, :trigger_id, :type, :submission, :message_ts
 
         def initialize(params)
           if params.key?(:payload)

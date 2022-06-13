@@ -119,7 +119,8 @@ describe Api::Endpoints::SlackEndpoint do
           expect(last_response.body).to eq(invitation.to_slack.to_json)
         end
         it 'handles already_in_team' do
-          allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError, 'already_in_team')
+          allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError,
+                                                                            'already_in_team')
           post '/api/slack/action', payload: {
             actions: [{ name: 'approve', value: invitation.id.to_s }],
             user: { id: user.user_id },
@@ -132,7 +133,8 @@ describe Api::Endpoints::SlackEndpoint do
           expect(last_response.body).to eq({ text: "User #{invitation.name_and_email} is already a member of the team." }.to_json)
         end
         it 'handles already_invited' do
-          allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError, 'already_invited')
+          allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError,
+                                                                            'already_invited')
           post '/api/slack/action', payload: {
             actions: [{ name: 'approve', value: invitation.id.to_s }],
             user: { id: user.user_id },
@@ -145,7 +147,8 @@ describe Api::Endpoints::SlackEndpoint do
           expect(last_response.body).to eq({ text: "User #{invitation.name_and_email} has already been invited." }.to_json)
         end
         it 'handles other errors' do
-          allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError, 'invite_limit_reached')
+          allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError,
+                                                                            'invite_limit_reached')
           post '/api/slack/action', payload: {
             actions: [{ name: 'approve', value: invitation.id.to_s }],
             user: { id: user.user_id },

@@ -3,12 +3,12 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 ENV['RACK_ENV'] ||= 'development'
 
 require 'bundler/setup'
-Bundler.require :default, ENV['RACK_ENV']
+Bundler.require :default, ENV.fetch('RACK_ENV', nil)
 
 require 'slack-ruby-bot-server-rtm'
 require 'slack-invite'
 
-SlackRubyBotServer.configure do |config|
+SlackRubyBotServer::RealTime.configure do |config|
   config.server_class = SlackInvite::Server
 end
 

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.6.6'
+ruby '2.7.6'
 
 gem 'faker'
 gem 'grape'
@@ -8,8 +8,8 @@ gem 'hashie'
 gem 'irb'
 gem 'mongoid'
 gem 'mongoid-scroll'
-gem 'newrelic-slack-ruby-bot'
 gem 'newrelic_rpm'
+gem 'newrelic-slack-ruby-bot'
 gem 'nokogiri'
 gem 'rack-robotz'
 gem 'rack-server-pages'
@@ -23,7 +23,9 @@ gem 'wannabe_bool'
 group :development, :test do
   gem 'foreman'
   gem 'rake', '~> 12.3'
-  gem 'rubocop', '0.66.0'
+  gem 'rubocop'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
 end
 
 group :development do

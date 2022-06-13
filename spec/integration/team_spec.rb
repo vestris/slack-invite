@@ -29,7 +29,9 @@ describe 'Teams', js: true, type: :feature do
       expect(title).to eq('Slack Invite Automation: User Workflow in Slack')
     end
     it 'includes a link to add to slack with the client id' do
-      expect(first("a[href='https://slack.com/oauth/authorize?scope=bot,commands&client_id=#{ENV['SLACK_CLIENT_ID']}']"))
+      expect(first("a[href='https://slack.com/oauth/authorize?scope=bot,commands&client_id=#{ENV.fetch(
+        'SLACK_CLIENT_ID', nil
+      )}']"))
     end
   end
 end

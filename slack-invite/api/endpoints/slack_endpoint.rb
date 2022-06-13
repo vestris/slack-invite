@@ -24,12 +24,12 @@ module Api
                        { text: command.team.subscribe_text }
                      else
                        case command.action
-                       when 'setup' then
+                       when 'setup'
                          command.user.to_slack_auth_request
                        else
                          { text: "Sorry, I don't understand the `#{command.action}` command." }
                        end
-          end
+                     end
 
           response.merge(response_type: 'ephemeral')
         end
@@ -79,18 +79,18 @@ module Api
               raise 'missing invitation' unless invitation
 
               case command.name
-              when 'ignore' then
+              when 'ignore'
                 invitation.ignore!(command.user)
                 invitation.to_slack
-              when 'approve' then
+              when 'approve'
                 begin
                   invitation.approve!(command.user)
                   invitation.to_slack
                 rescue Slack::Web::Api::Errors::SlackError => e
                   case e.message
-                  when 'already_invited' then
+                  when 'already_invited'
                     { text: "User #{invitation.name_and_email} has already been invited." }
-                  when 'already_in_team_invited_user', 'already_in_team' then
+                  when 'already_in_team_invited_user', 'already_in_team'
                     { text: "User #{invitation.name_and_email} is already a member of the team." }
                   else
                     { text: e.message }
