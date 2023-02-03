@@ -16,8 +16,8 @@ Everybody seems to struggle with this.
 
 ### Similar Products
 
-* [slack-invite-automation](https://github.com/outsideris/slack-invite-automation): custom web app that requires deployment
-* [PublicSlack](https://publicslack.com): add to slack, but requires manually creating admin tokens
+* ~~[slack-invite-automation](https://github.com/outsideris/slack-invite-automation):~~ requires a legacy test token, however [The creation of legacy test tokens is deprecated | Slack](https://api.slack.com/changelog/2020-02-legacy-test-token-creation-to-retire)
+* ~~[PublicSlack](https://publicslack.com):~~ no longer functional (sign-up results in a 404, no Twitter activity since 2018)
 * [CommunityInviter](https://communityinviter.com/): similar, but approval outside of Slack
 
 ### Blog Posts
