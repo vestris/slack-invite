@@ -57,7 +57,7 @@ Document any external behavior in the [README](README.md).
 
 ## Update Changelog
 
-Add a line to [CHANGELOG](CHANGELOG.md) under *Next Release*.
+Add a line in [CHANGELOG](CHANGELOG.md) at the top of the list.
 Make it look like every other line, including your name and link to your Github account.
 
 ## Commit Changes
@@ -102,7 +102,7 @@ git push origin my-feature-branch -f
 Update the [CHANGELOG](CHANGELOG.md) with the pull request number. A typical entry looks as follows.
 
 ```
-* [#123](https://github.com/vestris/slack-invite/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
+* yyyy/mm/dd: [#123](https://github.com/vestris/slack-invite/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
 ```
 
 Amend your previous commit and force push the changes.
