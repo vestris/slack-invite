@@ -7,6 +7,8 @@ class Team
   field :subscribed_at, type: DateTime
   field :subscription_expired_at, type: DateTime
 
+  field :workspace_url, type: String
+
   field :trial_informed_at, type: DateTime
 
   field :admin_token, type: String
@@ -60,6 +62,11 @@ class Team
         channel: channel['id']
       }
     end
+  end
+
+  def workspace_url
+    team_info = slack_client.team_info
+    team_info.to_hash['team']['url']
   end
 
   # returns DM channel

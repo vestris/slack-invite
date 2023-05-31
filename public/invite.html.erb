@@ -13,6 +13,7 @@
   </p>
   <p>
     <h1 id='team_caption'>Get Invited to Team <u><span id='team_name'></span></u></h1>
+    <span>If you have previously joined this team, click <a id='team_link'>here</a> to be redirected</span>
   </p>
   <p id='messages' />
   <p id='invite'>
@@ -22,7 +23,8 @@
 
         var team = {
           id: '<%= team && team.team_id %>',
-          name: '<%= team && team.name %>'
+          name: '<%= team && team.name %>',
+          workspace_url: '<%= team && team.workspace_url %>'
         }
 
         if (! team.name) {
@@ -32,6 +34,9 @@
         }
 
         $('#team_name').text(team.name);
+
+        a = document.getElementById('team_link');
+        a.href = team.workspace_url;
       });
       </script>
     <form id="form" onsubmit="return invite(event);">

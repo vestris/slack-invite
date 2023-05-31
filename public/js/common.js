@@ -36,6 +36,9 @@ $(document).ready(function() {
         }
       }
     }
+    if (message == "already_in_team") {
+      message = "You have already joined this Slack workspace. Open it using the link above.";
+    }
 
     SlackInvite.errorMessage(message || xhr.statusText || xhr.responseText || 'Unexpected Error');
   };
