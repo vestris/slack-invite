@@ -10,6 +10,10 @@ describe 'Invite', js: true, type: :feature do
     end
     context 'with a team' do
       let!(:team) { Fabricate(:team, admin_token: 'token') }
+      it "includes a link to the team's slack workspace" do
+        visit "/invite?team_id=#{team.team_id}"
+        expect(page).to have_link(nil, href: team.workspace_url)
+      end
       it 'sends an invitation' do
         expect_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(
           email: 'email@example.com'
@@ -21,6 +25,18 @@ describe 'Invite', js: true, type: :feature do
           click_on 'Submit'
           expect(page.find('#messages')).to have_content 'Invitation sent!'
         }.to change(team.invitations, :count).by(1)
+      end
+      context 'with a user that is already in the team', vcr: { cassette_name: 'slack/team_info' } do
+        let(:invitation) { Fabricate(:invitation, team: team) }
+        it 'displays the message prompting to click the workspace URL link' do
+          allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError,
+                                                                            'already_in_team')
+          visit "/invite?team_id=#{team.team_id}"
+          fill_in 'name', with: invitation.name
+          fill_in 'email', with: invitation.email
+          click_on 'Submit'
+          expect(page.find('#messages')).to have_content 'You have already joined this Slack workspace. Open it using the link above.'
+        end
       end
       context 'with approval' do
         let!(:admin) { Fabricate(:user, is_admin: true, team: team) }
