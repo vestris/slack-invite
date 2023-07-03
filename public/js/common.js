@@ -33,11 +33,10 @@ $(document).ready(function() {
           message = 'The code returned from the OAuth workflow was invalid.'
         } else if (message == 'code_already_used') {
           message = 'The code returned from the OAuth workflow has already been used.'
+        } else if (message == "already_in_team") {
+          message = "You have already joined this Slack workspace. Open it using the link above.";
         }
       }
-    }
-    if (message == "already_in_team") {
-      message = "You have already joined this Slack workspace. Open it using the link above.";
     }
 
     SlackInvite.errorMessage(message || xhr.statusText || xhr.responseText || 'Unexpected Error');

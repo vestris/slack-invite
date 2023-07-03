@@ -4,4 +4,5 @@ Fabricator(:team) do
   name { Faker::Lorem.word }
   api { true }
   created_at { Time.now - 2.weeks }
+  workspace_url { 'https://fabricated.slack.com' }
 end

@@ -13,7 +13,7 @@
   </p>
   <p>
     <h1 id='team_caption'>Get Invited to Team <u><span id='team_name'></span></u></h1>
-    <span>If you have previously joined this team, click <a id='team_link'>here</a> to be redirected</span>
+    <span>If you have previously joined this team, click <a id='team_workspace_url'>here</a> to be redirected.</span>
   </p>
   <p id='messages' />
   <p id='invite'>
@@ -35,8 +35,7 @@
 
         $('#team_name').text(team.name);
 
-        a = document.getElementById('team_link');
-        a.href = team.workspace_url;
+        $('#team_workspace_url').attr("href", team.workspace_url);
       });
       </script>
     <form id="form" onsubmit="return invite(event);">

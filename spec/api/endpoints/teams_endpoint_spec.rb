@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Api::Endpoints::TeamsEndpoint do
   include Api::Test::EndpointTest
 
-  context 'team' do
+  context 'team', vcr: { cassette_name: 'slack/team_info' } do
     it 'requires code' do
       expect { client.teams._post }.to raise_error Faraday::ClientError do |e|
         json = JSON.parse(e.response[:body])

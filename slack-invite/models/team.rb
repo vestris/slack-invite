@@ -22,6 +22,9 @@ class Team
   has_many :invitations, dependent: :destroy
 
   before_validation :update_subscription_expired_at
+
+  before_save :update_team_info!
+
   after_update :inform_subscribed_changed!
   after_save :inform_activated!
 
@@ -64,9 +67,12 @@ class Team
     end
   end
 
-  def workspace_url
-    team_info = slack_client.team_info
-    team_info.to_hash['team']['url']
+  def team_info
+    @team_info ||= slack_client.team_info
+  end
+
+  def update_team_info!
+    self.workspace_url ||= team_info&.team&.url
   end
 
   # returns DM channel
