@@ -84,7 +84,7 @@ module SlackInvite
         customer = Stripe::Customer.retrieve(team.stripe_customer_id)
         if customer.subscriptions.none?
           logger.info "No active subscriptions for #{team} (#{team.stripe_customer_id}), downgrading."
-          team.inform! 'Your subscription was canceled and your team has been downgraded. Thank you for being a customer!'
+          team.inform_everyone!(text: 'Your subscription was canceled and your team has been downgraded. Thank you for being a customer!')
           team.update_attributes!(subscribed: false)
         else
           customer.subscriptions.each do |subscription|
