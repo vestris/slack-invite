@@ -6,14 +6,16 @@ describe Api::Endpoints::InvitationsEndpoint do
   context 'invitations' do
     let!(:team) { Fabricate(:team, admin_token: 'token') }
     let!(:admin) { Fabricate(:user, team: team, is_admin: true) }
+    let(:email) { Faker::Internet.email }
     it 'creates a invitation' do
       expect_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(
-        email: 'email@example.com'
+        real_name: nil,
+        email: email
       )
       expect {
         client.invitations._post(
           team_id: team.team_id,
-          email: 'email@example.com'
+          email: email
         )
       }.to change(team.invitations, :count).by(1)
     end

@@ -8,7 +8,10 @@ describe Invitation do
     let(:invitation) { Fabricate(:invitation, team: team) }
     context 'send!' do
       it 'updates sent_at' do
-        allow_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(email: invitation.email)
+        allow_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(
+          real_name: invitation.name,
+          email: invitation.email
+        )
         expect {
           invitation.send!
         }.to change(invitation, :sent_at)

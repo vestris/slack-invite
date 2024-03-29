@@ -1,5 +1,6 @@
 ### Changelog
 
+* 2024/03/29: Include real name in the invitation when accepted - [@dblock](https://github.com/dblock).
 * 2024/03/29: Display error when the user has already been invited to the team - [@dblock](https://github.com/dblock).
 * 2024/03/29: Display a team link and icon - [@dblock](https://github.com/dblock).
 * 2024/03/29: Display a readable error when a user is already a member of the team - [@dblock](https://github.com/dblock).

@@ -20,6 +20,8 @@ describe 'Invite', js: true, type: :feature do
     end
     context 'with a team' do
       let!(:team) { Fabricate(:team, admin_token: 'token') }
+      let(:name) { Faker::Name.name }
+      let(:email) { Faker::Internet.email }
       it 'displays team info' do
         visit "/invite?team_id=#{team.team_id}"
         expect(page.find('#team_name')).to have_content team.name
@@ -29,12 +31,13 @@ describe 'Invite', js: true, type: :feature do
       end
       it 'sends an invitation' do
         expect_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(
-          email: 'email@example.com'
+          real_name: name,
+          email: email
         )
         expect {
           visit "/invite?team_id=#{team.team_id}"
-          fill_in 'name', with: Faker::Name.name
-          fill_in 'email', with: 'email@example.com'
+          fill_in 'name', with: name
+          fill_in 'email', with: email
           click_on 'Submit'
           expect(page.find('#messages')).to have_content 'Invitation sent!'
         }.to change(team.invitations, :count).by(1)

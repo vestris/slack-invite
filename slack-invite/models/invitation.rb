@@ -21,7 +21,7 @@ class Invitation
     return if ignored_at
 
     logger.info "SEND: #{self}"
-    team.admin_slack_client.users_admin_invite(email: email)
+    team.admin_slack_client.users_admin_invite(real_name: name, email: email)
     update_attributes!(sent_at: Time.now.utc)
   end
 
