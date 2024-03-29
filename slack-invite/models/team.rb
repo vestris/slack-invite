@@ -9,6 +9,8 @@ class Team
 
   field :trial_informed_at, type: DateTime
 
+  field :icon
+
   field :admin_token, type: String
   belongs_to :admin_user, class_name: 'User', inverse_of: nil, index: true, optional: true
 
@@ -22,6 +24,7 @@ class Team
   before_validation :update_subscription_expired_at
   after_update :inform_subscribed_changed!
   after_save :inform_activated!
+  before_validation :update_team_info
 
   def asleep?(dt = 2.weeks)
     return false unless subscription_expired?
@@ -60,6 +63,15 @@ class Team
         channel: channel['id']
       }
     end
+  end
+
+  def team_info
+    @team_info ||= slack_client.team_info
+  end
+
+  def update_team_info
+    self.domain ||= team_info&.team&.domain
+    self.icon ||= team_info&.team&.icon&.image_132
   end
 
   # returns DM channel
@@ -160,6 +172,10 @@ class Team
       subscribed? ? 'subscribed' : 'trial',
       stripe_customer_id? ? 'paid' : nil
     ].compact
+  end
+
+  def workspace_url
+    domain ? "https://#{domain}.slack.com" : nil
   end
 
   private

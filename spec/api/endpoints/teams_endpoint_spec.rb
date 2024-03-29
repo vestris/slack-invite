@@ -47,7 +47,7 @@ describe Api::Endpoints::TeamsEndpoint do
         ENV.delete('SLACK_CLIENT_ID')
         ENV.delete('SLACK_CLIENT_SECRET')
       end
-      it 'creates a team' do
+      it 'creates a team', vcr: { cassette_name: 'slack/team_info' } do
         expect(SlackRubyBotServer::Service.instance).to receive(:start!)
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
           text: "Welcome to Slack Invite Automation!\nUse `/invitebot help` to get more information.\n",
@@ -62,6 +62,8 @@ describe Api::Endpoints::TeamsEndpoint do
           expect(team.token).to eq 'token'
           expect(team.bot_user_id).to eq 'bot_user_id'
           expect(team.activated_user_id).to eq 'activated_user_id'
+          expect(team.domain).to eq 'dblockdotorg'
+          expect(team.icon).to eq 'https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2015-04-28/4657218807_d480d2ee610d2e8aacfe_132.jpg'
         }.to change(Team, :count).by(1)
       end
       it 'reactivates a deactivated team' do
@@ -127,6 +129,7 @@ describe Api::Endpoints::TeamsEndpoint do
 
         it 'subscribes to the mailing list' do
           expect(SlackRubyBotServer::Service.instance).to receive(:start!)
+          allow_any_instance_of(Slack::Web::Client).to receive(:team_info)
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage)
 
           allow_any_instance_of(Slack::Web::Client).to receive(:users_info).with(

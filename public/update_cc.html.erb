@@ -42,8 +42,8 @@
       if (data.stripe_token) {
 
         var team = {
-          id: <%= team ? "'#{team._id}'" : 'null' %>,
-          name: <%= team ? "'#{team.name}'" : 'null' %>
+          id: '<%= team&.team_id ? team&.team_id : "undefined" %>',
+          name: <%= team&.name ? "'#{CGI.escapeHTML(team.name)}'" : 'undefined' %>,
         };
 
         $.ajax({

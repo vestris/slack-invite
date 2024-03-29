@@ -30,8 +30,8 @@
       <% team = Team.where(team_id: request['team_id']).first %>
 
       var team = {
-        id: '<%= team && team.team_id %>',
-        name: '<%= team && team.name %>',
+        id: '<%= team&.team_id ? team&.team_id : "undefined" %>',
+        name: <%= team&.name ? "'#{CGI.escapeHTML(team.name)}'" : 'undefined' %>,
         subscribed: <%= !!(team && team.subscribed) %>,
       }
 

@@ -9,10 +9,11 @@
 
 <body class='plain'>
   <p class='icon'>
-    <a href='/'><img src='img/icon.png'></a>
+    <a href='/'><img id='team_icon' src='img/icon.png'></a>
   </p>
   <p>
     <h1 id='team_caption'>Get Invited to Team <u><span id='team_name'></span></u></h1>
+    <p class='link'><a id='team_href' target='_blank'><span id='team_href'></span></a></p>
   </p>
   <p id='messages' />
   <p id='invite'>
@@ -21,8 +22,10 @@
         <% team = Team.where(team_id: request['team_id']).first %>
 
         var team = {
-          id: '<%= team && team.team_id %>',
-          name: '<%= team && team.name %>'
+          id: '<%= team&.team_id ? team&.team_id : "undefined" %>',
+          name: <%= team&.name ? "'#{CGI.escapeHTML(team.name)}'" : 'undefined' %>,
+          icon: <%= team&.icon ? "'#{URI.parse(team&.icon).to_s}'" : 'undefined' %>,
+          workspace_url: <%= team&.workspace_url ? "'#{URI.parse(team&.workspace_url).to_s}'" : 'undefined' %>,
         }
 
         if (! team.name) {
@@ -31,7 +34,16 @@
           return;
         }
 
-        $('#team_name').text(team.name);
+        $('#team_name').html(team.name);
+
+        if (team.workspace_url) {
+          $('#team_href').html(team.workspace_url);
+          $('#team_href').attr('href', team.workspace_url);
+        }
+        
+        if (team.icon) {
+          $('#team_icon').attr('src', team.icon);
+        }
       });
       </script>
     <form id="form" onsubmit="return invite(event);">

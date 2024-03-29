@@ -2,14 +2,31 @@ require 'spec_helper'
 
 describe 'Invite', js: true, type: :feature do
   context 'request an invitation' do
+    before do
+      allow_any_instance_of(Team).to receive(:update_team_info!)
+    end
     context 'without a team id' do
       it 'displays an error' do
         visit '/invite'
         expect(page.find('#messages')).to have_content 'Missing or invalid team ID.'
       end
     end
+    context 'with a team having a quote in the name' do
+      let!(:team) { Fabricate(:team, name: "dblock's team") }
+      it 'displays team name' do
+        visit "/invite?team_id=#{team.team_id}"
+        expect(page.find('#team_name')).to have_content "dblock's team"
+      end
+    end
     context 'with a team' do
       let!(:team) { Fabricate(:team, admin_token: 'token') }
+      it 'displays team info' do
+        visit "/invite?team_id=#{team.team_id}"
+        expect(page.find('#team_name')).to have_content team.name
+        expect(page.find('#team_href')).to have_content team.workspace_url
+        expect(page).to have_link team.workspace_url, href: team.workspace_url
+        expect(page.find('#team_icon')['src']).to have_content team.icon
+      end
       it 'sends an invitation' do
         expect_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(
           email: 'email@example.com'

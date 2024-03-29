@@ -142,4 +142,13 @@ describe Team do
       Timecop.return
     end
   end
+  context 'info', vcr: { cassette_name: 'slack/team_info' } do
+    let(:team) { Fabricate(:team, domain: nil, icon: nil) }
+    it 'updates domain' do
+      expect(team.domain).to eq 'dblockdotorg'
+    end
+    it 'updates icon' do
+      expect(team.icon).to eq 'https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2015-04-28/4657218807_d480d2ee610d2e8aacfe_132.jpg'
+    end
+  end
 end
