@@ -34,7 +34,9 @@ $(document).ready(function() {
                 } else if (message == 'code_already_used') {
                     message = 'The code returned from the OAuth workflow has already been used.'
                 } else if (message == 'already_in_team') {
-                    message = 'Already a team member.'
+                    message = 'The user is already a member of the team.'
+                } else if (message = 'already_in_team_invited_user') {
+                    message = 'The user has already been invited to the team.'
                 }
             }
         }

@@ -1,5 +1,6 @@
 ### Changelog
 
+* 2024/03/29: Display error when the user has already been invited to the team - [@dblock](https://github.com/dblock).
 * 2024/03/29: Display a team link and icon - [@dblock](https://github.com/dblock).
 * 2024/03/29: Display a readable error when a user is already a member of the team - [@dblock](https://github.com/dblock).
 * 2023/01/16: Upgraded to Ruby 2.7.7 - [@dblock](https://github.com/dblock).

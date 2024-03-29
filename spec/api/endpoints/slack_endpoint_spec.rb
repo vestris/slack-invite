@@ -130,7 +130,7 @@ describe Api::Endpoints::SlackEndpoint do
             callback_id: 'invitation'
           }.to_json
           expect(last_response.status).to eq 201
-          expect(last_response.body).to eq({ text: "User #{invitation.name_and_email} is already a member of the team." }.to_json)
+          expect(last_response.body).to eq({ text: "The user #{invitation.name_and_email} is already a member of the team." }.to_json)
         end
         it 'handles already_invited' do
           allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError,
@@ -144,7 +144,7 @@ describe Api::Endpoints::SlackEndpoint do
             callback_id: 'invitation'
           }.to_json
           expect(last_response.status).to eq 201
-          expect(last_response.body).to eq({ text: "User #{invitation.name_and_email} has already been invited." }.to_json)
+          expect(last_response.body).to eq({ text: "The user #{invitation.name_and_email} has already been invited to the team." }.to_json)
         end
         it 'handles other errors' do
           allow_any_instance_of(Invitation).to receive(:approve!).and_raise(Slack::Web::Api::Errors::SlackError,

@@ -46,7 +46,17 @@ describe 'Invite', js: true, type: :feature do
           fill_in 'name', with: Faker::Name.name
           fill_in 'email', with: 'email@example.com'
           click_on 'Submit'
-          expect(page.find('#messages')).to have_content 'Already a team member.'
+          expect(page.find('#messages')).to have_content 'The user is already a member of the team.'
+        }.to change(team.invitations, :count).by(1)
+      end
+      it 'displays already invited' do
+        expect_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).and_raise(Slack::Web::Api::Errors::SlackError, 'already_in_team_invited_user')
+        expect {
+          visit "/invite?team_id=#{team.team_id}"
+          fill_in 'name', with: Faker::Name.name
+          fill_in 'email', with: 'email@example.com'
+          click_on 'Submit'
+          expect(page.find('#messages')).to have_content 'The user has already been invited to the team.'
         }.to change(team.invitations, :count).by(1)
       end
       context 'with approval' do

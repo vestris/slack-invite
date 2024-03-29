@@ -18,7 +18,7 @@ class Invitation
   end
 
   def send!
-    return if ignored_at || sent_at
+    return if ignored_at
 
     logger.info "SEND: #{self}"
     team.admin_slack_client.users_admin_invite(email: email)
