@@ -1,5 +1,6 @@
 ### Changelog
 
+* 2024/03/29: Display a readable error when a user is already a member of the team - [@dblock](https://github.com/dblock).
 * 2023/01/16: Upgraded to Ruby 2.7.7 - [@dblock](https://github.com/dblock).
 * 2022/06/12: Replaced Travis-CI with GHA - [@dblock](https://github.com/dblock).
 * 2020/04/23: Added `set sender` to change which Slack admin sends invitations - [@dblock](https://github.com/dblock).
