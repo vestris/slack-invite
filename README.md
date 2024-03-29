@@ -13,7 +13,7 @@ Slack Invite Automation. Hosted at [invite.playplay.io](https://invite.playplay.
 ## Features
 
 * Renders a web page for users to self-invite with a team name, link, and icon.
-* Optionally requires approval from an existing admin.
+* Optionally requires approval from an existing admin from within Slack.
 * Tells users when they are already members of a team.
 * Tells users when they have already been invited and does not resend duplicate invitations.
 * The account sending invitations is configurable.
