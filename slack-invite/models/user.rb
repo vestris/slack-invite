@@ -34,7 +34,7 @@ class User
              team.users.where(user_id: slack_id).first
            else
              regexp = ::Regexp.new("^#{user_name}$", 'i')
-             User.where(team: team, user_name: regexp).first
+             User.where(team:, user_name: regexp).first
            end
     unless user
       begin
@@ -42,7 +42,7 @@ class User
         info = Hashie::Mash.new(users_info).user if users_info
         if info
           user = User.create!(
-            team: team,
+            team:,
             user_id: info.id,
             user_name: info.name,
             is_admin: info.is_admin,
@@ -59,8 +59,8 @@ class User
   end
 
   def self.find_create_or_update_by_team_and_slack_id!(team_id, user_id)
-    team = Team.where(team_id: team_id).first || raise("Cannot find team ID #{team_id}")
-    User.where(team: team, user_id: user_id).first || User.create!(team: team, user_id: user_id)
+    team = Team.where(team_id:).first || raise("Cannot find team ID #{team_id}")
+    User.where(team:, user_id:).first || User.create!(team:, user_id:)
   end
 
   # Find an existing record, update the username if necessary, otherwise create a user record.
@@ -118,7 +118,7 @@ class User
     rc = team.slack_client.oauth_access(
       client_id: ENV.fetch('SLACK_CLIENT_ID', nil),
       client_secret: ENV.fetch('SLACK_CLIENT_SECRET', nil),
-      code: code,
+      code:,
       redirect_uri: authorize_uri
     )
 
@@ -143,8 +143,7 @@ class User
   end
 
   def slack_oauth_url
-    "https://slack.com/oauth/authorize?scope=admin,client&client_id=#{ENV.fetch('SLACK_CLIENT_ID',
-                                                                                nil)}&redirect_uri=#{URI.encode(authorize_uri)}&team=#{team.team_id}&state=#{id}"
+    "https://slack.com/oauth/authorize?scope=admin,client&client_id=#{ENV.fetch('SLACK_CLIENT_ID', nil)}&redirect_uri=#{CGI.escape(authorize_uri)}&team=#{team.team_id}&state=#{id}"
   end
 
   def to_slack_auth_request

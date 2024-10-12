@@ -46,7 +46,7 @@ module Api
             error!("Cannot sort #{coll.class.name}", 500)
           end
         end
-        coll = coll.is_a?(Module) && coll.respond_to?(:all) ? coll.all : coll
+        coll = coll.all if coll.is_a?(Module) && coll.respond_to?(:all)
       end
     end
   end

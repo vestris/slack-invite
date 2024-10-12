@@ -43,10 +43,12 @@ describe Api::Endpoints::TeamsEndpoint do
         # notification to authorize user
         allow_any_instance_of(User).to receive(:dm!)
       end
+
       after do
         ENV.delete('SLACK_CLIENT_ID')
         ENV.delete('SLACK_CLIENT_SECRET')
       end
+
       it 'creates a team', vcr: { cassette_name: 'slack/team_info' } do
         expect(SlackRubyBotServer::Service.instance).to receive(:start!)
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -66,6 +68,7 @@ describe Api::Endpoints::TeamsEndpoint do
           expect(team.icon).to eq 'https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2015-04-28/4657218807_d480d2ee610d2e8aacfe_132.jpg'
         }.to change(Team, :count).by(1)
       end
+
       it 'reactivates a deactivated team' do
         expect(SlackRubyBotServer::Service.instance).to receive(:start!)
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -84,8 +87,9 @@ describe Api::Endpoints::TeamsEndpoint do
           expect(team.active).to be true
           expect(team.bot_user_id).to eq 'bot_user_id'
           expect(team.activated_user_id).to eq 'activated_user_id'
-        }.to_not change(Team, :count)
+        }.not_to change(Team, :count)
       end
+
       it 'returns a useful error when team already exists' do
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage)
         existing_team = Fabricate(:team, token: 'token')
@@ -94,6 +98,7 @@ describe Api::Endpoints::TeamsEndpoint do
           expect(json['message']).to eq "Team #{existing_team.name} is already registered."
         end
       end
+
       it 'reactivates a deactivated team with a different code' do
         expect(SlackRubyBotServer::Service.instance).to receive(:start!)
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -112,8 +117,9 @@ describe Api::Endpoints::TeamsEndpoint do
           expect(team.active).to be true
           expect(team.bot_user_id).to eq 'bot_user_id'
           expect(team.activated_user_id).to eq 'activated_user_id'
-        }.to_not change(Team, :count)
+        }.not_to change(Team, :count)
       end
+
       context 'with mailchimp settings' do
         before do
           SlackRubyBotServer::Mailchimp.configure do |config|
@@ -121,8 +127,13 @@ describe Api::Endpoints::TeamsEndpoint do
             config.mailchimp_list_id = 'list-id'
           end
         end
+
         after do
           SlackRubyBotServer::Mailchimp.config.reset!
+          ENV.delete('MAILCHIMP_API_KEY')
+          ENV.delete('MAILCHIMP_LIST_ID')
+          ENV.delete('MAILCHIMP_API_KEY')
+          ENV.delete('MAILCHIMP_LIST_ID')
         end
 
         let(:list) { double(Mailchimp::List, members: double(Mailchimp::List::Members)) }
@@ -162,10 +173,6 @@ describe Api::Endpoints::TeamsEndpoint do
           )
 
           client.teams._post(code: 'code')
-        end
-        after do
-          ENV.delete('MAILCHIMP_API_KEY')
-          ENV.delete('MAILCHIMP_LIST_ID')
         end
       end
     end

@@ -34,7 +34,7 @@ class Team
   end
 
   def slack_client
-    @slack_client ||= Slack::Web::Client.new(token: token)
+    @slack_client ||= Slack::Web::Client.new(token:)
   end
 
   def admin_slack_client
@@ -191,7 +191,7 @@ class Team
   end
 
   def inform_subscribed_changed!
-    return unless subscribed? && subscribed_changed?
+    return unless subscribed? && (subscribed_changed? || saved_change_to_subscribed?)
 
     inform_everyone!(text: subscribed_text)
   end
@@ -209,7 +209,9 @@ class Team
 
   def inform_activated!
     return unless active? && activated_user_id && bot_user_id
-    return unless active_changed? || activated_user_id_changed?
+    unless (active_changed? || saved_change_to_active?) || (activated_user_id_changed? || saved_change_to_activated_user_id?)
+      return
+    end
 
     im = slack_client.conversations_open(users: activated_user_id.to_s)
     slack_client.chat_postMessage(

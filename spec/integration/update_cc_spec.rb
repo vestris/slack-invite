@@ -1,15 +1,18 @@
 require 'spec_helper'
 
-describe 'Update cc', js: true, type: :feature do
+describe 'Update cc', :js, type: :feature do
   context 'with a stripe key' do
     before do
       ENV['STRIPE_API_PUBLISHABLE_KEY'] = 'pk_test_804U1vUeVeTxBl8znwriXskf'
     end
+
     after do
       ENV.delete 'STRIPE_API_PUBLISHABLE_KEY'
     end
+
     context 'a team with a stripe customer ID' do
       let!(:team) { Fabricate(:team, stripe_customer_id: 'stripe_customer_id') }
+
       it 'updates cc' do
         visit "/update_cc?team_id=#{team.team_id}"
         expect(find('h1')).to have_text('Slack Invite Automation: Update Credit Card Info')
@@ -28,11 +31,13 @@ describe 'Update cc', js: true, type: :feature do
           find('button[type="submit"]').click
         end
         sleep 5
-        expect(find('#messages')).to have_text("Successfully updated team #{team.name} credit card.\n\nThank you for your support!")
+        expect(find_by_id('messages')).to have_text("Successfully updated team #{team.name} credit card.\n\nThank you for your support!")
       end
     end
+
     context 'a team without a stripe customer ID' do
       let!(:team) { Fabricate(:team, stripe_customer_id: nil) }
+
       it 'displays error' do
         visit "/update_cc?team_id=#{team.team_id}"
         expect(find('h1')).to have_text('Slack Invite Automation: Update Credit Card Info')
@@ -47,7 +52,7 @@ describe 'Update cc', js: true, type: :feature do
           find('button[type="submit"]').click
         end
         sleep 5
-        expect(find('#messages')).to have_text('Not a Subscriber')
+        expect(find_by_id('messages')).to have_text('Not a Subscriber')
       end
     end
   end

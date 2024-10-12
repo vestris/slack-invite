@@ -15,6 +15,7 @@ describe Api::Endpoints::StatusEndpoint do
 
     context 'with a team' do
       let!(:team) { Fabricate(:team, active: false) }
+
       it 'returns a status with ping' do
         status = client.status
         expect(status.teams_count).to eq 1

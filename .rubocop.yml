@@ -1,5 +1,6 @@
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.3
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -20,3 +21,8 @@ Style/BlockDelimiters:
     - expect
 
 inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-capybara
+  - rubocop-rake
+  - rubocop-rspec

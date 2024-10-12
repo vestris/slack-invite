@@ -50,15 +50,15 @@ module Api
           bot_user_id = rc['bot']['bot_user_id']
           user_id = rc['user_id']
           access_token = rc['access_token']
-          team = Team.where(token: token).first
+          team = Team.where(token:).first
           team ||= Team.where(team_id: rc['team_id']).first
 
           if team
             team.update_attributes!(
-              token: token,
+              token:,
               activated_user_id: user_id,
               activated_user_access_token: access_token,
-              bot_user_id: bot_user_id
+              bot_user_id:
             )
 
             raise "Team #{team.name} is already registered." if team.active?
@@ -66,12 +66,12 @@ module Api
             team.activate!(token)
           else
             team = Team.create!(
-              token: token,
+              token:,
               team_id: rc['team_id'],
               name: rc['team_name'],
               activated_user_id: user_id,
               activated_user_access_token: access_token,
-              bot_user_id: bot_user_id
+              bot_user_id:
             )
           end
 

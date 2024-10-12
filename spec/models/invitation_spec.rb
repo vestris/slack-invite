@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe Invitation do
   let(:team) { Fabricate(:team, admin_token: 'token') }
-  let!(:admin) { Fabricate(:user, team: team, is_admin: true) }
-  let!(:user) { Fabricate(:user, team: team) }
+  let!(:admin) { Fabricate(:user, team:, is_admin: true) }
+  let!(:user) { Fabricate(:user, team:) }
+
   context 'requested' do
-    let(:invitation) { Fabricate(:invitation, team: team) }
+    let(:invitation) { Fabricate(:invitation, team:) }
+
     context 'send!' do
       it 'updates sent_at' do
         allow_any_instance_of(Slack::Web::Client).to receive(:users_admin_invite).with(
@@ -17,6 +19,7 @@ describe Invitation do
         }.to change(invitation, :sent_at)
       end
     end
+
     context 'approve!' do
       it 'updates and sends' do
         expect(invitation).to receive(:send!)
@@ -24,19 +27,22 @@ describe Invitation do
         expect(invitation.handled_by).to eq user
       end
     end
+
     context 'ignore!' do
       it 'updates and does not send' do
-        expect(invitation).to_not receive(:send!)
+        expect(invitation).not_to receive(:send!)
         invitation.ignore!(user)
         expect(invitation.handled_by).to eq user
       end
     end
+
     context 'request!' do
       it 'DMs admins' do
         expect_any_instance_of(User).to receive(:dm!).with(invitation.to_slack)
         invitation.request!
       end
     end
+
     context 'to_slack' do
       it 'returns a set of interactive buttons' do
         expect(invitation.to_slack).to eq(
@@ -61,8 +67,10 @@ describe Invitation do
       end
     end
   end
+
   context 'sent' do
-    let(:invitation) { Fabricate(:invitation, team: team, handled_by: user, sent_at: Time.now.utc) }
+    let(:invitation) { Fabricate(:invitation, team:, handled_by: user, sent_at: Time.now.utc) }
+
     context 'to_slack' do
       it 'returns a set of interactive buttons' do
         expect(invitation.to_slack).to eq(
@@ -71,8 +79,10 @@ describe Invitation do
       end
     end
   end
+
   context 'ignored' do
-    let(:invitation) { Fabricate(:invitation, team: team, handled_by: user, ignored_at: Time.now.utc) }
+    let(:invitation) { Fabricate(:invitation, team:, handled_by: user, ignored_at: Time.now.utc) }
+
     context 'to_slack' do
       it 'returns a set of interactive buttons' do
         expect(invitation.to_slack).to eq(

@@ -15,7 +15,7 @@ module Api
           email = params[:email] # TODO: verify format
           team = Team.where(team_id: params[:team_id]).first || error!('Team Not Found', 404)
           Api::Middleware.logger.info "Inviting #{email} to team #{team}."
-          invitation = team.invitations.where(email: email).first || team.invitations.create!(name: name, email: email)
+          invitation = team.invitations.where(email:).first || team.invitations.create!(name:, email:)
           team.require_approval ? invitation.request! : invitation.send!
           present invitation, with: Api::Presenters::InvitationPresenter
         end

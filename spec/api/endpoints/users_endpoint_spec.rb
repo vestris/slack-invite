@@ -5,10 +5,12 @@ describe Api::Endpoints::UsersEndpoint do
 
   context 'users' do
     let(:user) { Fabricate(:user) }
+
     it 'authorizes a user' do
       expect_any_instance_of(User).to receive(:authorize!).with('code')
       client.user(id: user.id)._put(code: 'code')
     end
+
     it 'assigns an access token' do
       access = { 'access_token' => 'token', 'team_id' => user.team.team_id }
       expect_any_instance_of(Slack::Web::Client).to receive(:oauth_access).with(hash_including(code: 'code')).and_return(access)
@@ -24,6 +26,7 @@ describe Api::Endpoints::UsersEndpoint do
       expect(user.team.admin_token).to eq 'token'
       expect(user.team.admin_user).to eq user
     end
+
     it 'verifies team' do
       access = { 'access_token' => 'token', 'team_name' => 'Team Name', 'team_id' => 'invalid' }
       expect_any_instance_of(Slack::Web::Client).to receive(:oauth_access).with(hash_including(code: 'code')).and_return(access)
@@ -33,7 +36,7 @@ describe Api::Endpoints::UsersEndpoint do
         json = JSON.parse(e.response[:body])
         expect(json['message']).to eq "Please choose team \"#{user.team.name}\" instead of \"Team Name\"."
       end
-      expect(user.reload.access_token).to be nil
+      expect(user.reload.access_token).to be_nil
     end
   end
 end
