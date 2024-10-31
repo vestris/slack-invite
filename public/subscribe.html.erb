@@ -5,8 +5,7 @@
   <title>Slack Invite Automation: Subscribe</title>
   <%= partial 'public/partials/_head.html.erb' %>
   <script src='https://checkout.stripe.com/checkout.js'></script>
-  <link rel='stylesheet' href='https://checkout.stripe.com/v3/checkout/button.css'>
-  </link>
+  <link rel='stylesheet' href='https://checkout.stripe.com/v3/checkout/button.css'></link>
 </head>
 
 <body class='plain'>
@@ -30,9 +29,9 @@
       <% team = Team.where(team_id: request.params['team_id']).first %>
 
       var team = {
-        id: '<%= team&.team_id ? team&.team_id : "undefined" %>',
-        name: <%= team&.name ? "'#{CGI.escapeHTML(team.name)}'" : 'undefined' %>,
-        subscribed: <%= !!(team && team.subscribed) %>,
+        id: "<%= team&.team_id %>",
+        name: <%= JSON::generate(ERB::Util.html_escape(team&.name)) %>,
+        subscribed: <%= !!(team&.subscribed) %>,
       }
 
       if (team.subscribed) {
@@ -42,7 +41,7 @@
         SlackInvite.message('Subscribe team <b>' + team.name + '</b> for $9.99/yr.');
       } else {
         $('#subscribeButton').remove();
-        SlackInvite.message('Missing or invalid team ID.');
+        SlackInvite.errorMessage('Missing or invalid team ID.');
       }
 
       var handler = StripeCheckout.configure({

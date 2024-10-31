@@ -3,8 +3,15 @@ var SlackInvite = {};
 $(document).ready(function() {
 
     SlackInvite.message = function(text) {
-        $('#messages').removeClass('has-error');
         $('#messages').fadeOut('slow', function() {
+            $('#messages').removeClass('has-error');
+            $('#messages').fadeIn('slow').html(text)
+        });
+    };
+
+    SlackInvite.errorMessage = function(text) {
+        $('#messages').fadeOut('slow', function() {
+            $('#messages').addClass('has-error');
             $('#messages').fadeIn('slow').html(text)
         });
     };
@@ -14,11 +21,6 @@ $(document).ready(function() {
         $('header').fadeOut('slow');
         $('section').fadeOut('slow');
         $('#register').show();
-    };
-
-    SlackInvite.errorMessage = function(message) {
-        SlackInvite.message(message)
-        $('#messages').addClass('has-error');
     };
 
     SlackInvite.error = function(xhr) {

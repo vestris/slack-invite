@@ -22,10 +22,10 @@
         <% team = Team.where(team_id: request.params['team_id']).first %>
 
         var team = {
-          id: '<%= team&.team_id ? team&.team_id : "undefined" %>',
-          name: <%= team&.name ? "'#{CGI.escapeHTML(team.name)}'" : 'undefined' %>,
-          icon: <%= team&.icon ? "'#{URI.parse(team&.icon).to_s}'" : 'undefined' %>,
-          workspace_url: <%= team&.workspace_url ? "'#{URI.parse(team&.workspace_url).to_s}'" : 'undefined' %>,
+          id: "<%= team&.team_id %>",
+          name: <%= JSON::generate(ERB::Util.html_escape(team&.name)) %>,
+          icon: <%= JSON::generate(team&.icon && ERB::Util.html_escape(URI.parse(team&.icon).to_s)) %>,
+          workspace_url: <%= JSON::generate(team&.workspace_url && ERB::Util.html_escape(URI.parse(team&.workspace_url).to_s)) %>
         }
 
         if (! team.name) {
