@@ -1,5 +1,6 @@
 ### Changelog
 
+* 2025/09/29: Upgraded to Ruby 3.4.6 - [@dblock](https://github.com/dblock).
 * 2024/10/31: Fix: subscribe and change cc for teams with special characters in name - [@dblock](https://github.com/dblock).
 * 2024/10/12: Upgraded to Ruby 3.3.5 - [@dblock](https://github.com/dblock).
 * 2024/03/29: Include real name in the invitation when accepted - [@dblock](https://github.com/dblock).
