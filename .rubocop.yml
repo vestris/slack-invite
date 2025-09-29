@@ -22,7 +22,7 @@ Style/BlockDelimiters:
 
 inherit_from: .rubocop_todo.yml
 
-require:
+plugins:
   - rubocop-capybara
   - rubocop-rake
   - rubocop-rspec

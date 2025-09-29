@@ -34,7 +34,7 @@ module SlackInvite
             changed = v && team.require_approval != v
             if changed && !user.is_admin
               client.say(channel: data.channel, text: [
-                "Approval to join team #{team.name} is #{team.require_approval? ? '' : 'not '}required.",
+                "Approval to join team #{team.name} is #{'not ' unless team.require_approval?}required.",
                 'Only a Slack admin can change approval, sorry.'
               ].join("\n"))
             else
@@ -52,7 +52,7 @@ module SlackInvite
           end
         else
           messages = [
-            "Approval to join team #{team.name} is #{team.require_approval? ? '' : 'not '}required.",
+            "Approval to join team #{team.name} is #{'not ' unless team.require_approval?}required.",
             "Invitations to join team #{team.name} are sent on behalf of #{team.admin_user&.user_name || 'your Slack admin'}."
           ]
           client.say(channel: data.channel, text: messages.join("\n"))
