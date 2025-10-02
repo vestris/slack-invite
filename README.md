@@ -1,7 +1,7 @@
 Slack Invite Automation
 =======================
 
-[![rubocop](https://github.com/vestris/slack-invite/actions/workflows/rubocop.yml/badge.svg)](https://github.com/vestris/slack-invite/actions/workflows/rubocop.yml)
+[![lint](https://github.com/vestris/slack-invite/actions/workflows/lint.yml/badge.svg)](https://github.com/vestris/slack-invite/actions/workflows/lint.yml)
 [![test](https://github.com/vestris/slack-invite/actions/workflows/test.yml/badge.svg)](https://github.com/vestris/slack-invite/actions/workflows/test.yml)
 
 Slack Invite Automation. Hosted at [invite.playplay.io](https://invite.playplay.io/).
