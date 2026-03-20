@@ -150,12 +150,16 @@ class User
     {
       text: 'Please authorize your account to send user invites.',
       attachments: [
-        fallback: slack_oauth_url,
-        actions: [
-          type: 'button',
-          text: 'Authorize',
-          url: slack_oauth_url
-        ]
+        {
+          fallback: slack_oauth_url,
+          actions: [
+            {
+              type: 'button',
+              text: 'Authorize',
+              url: slack_oauth_url
+            }
+          ]
+        }
       ]
     }
   end
