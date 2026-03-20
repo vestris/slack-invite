@@ -48,20 +48,22 @@ describe Invitation do
         expect(invitation.to_slack).to eq(
           text: "Hi, #{invitation.name_and_email} is asking to join #{team.name}!",
           attachments: [
-            callback_id: 'invitation',
-            fallback: 'You cannot approve invitations.',
-            attachment_type: 'default',
-            actions: [{
-              name: 'approve',
-              text: 'Approve',
-              type: 'button',
-              value: invitation.id.to_s
-            }, {
-              name: 'ignore',
-              text: 'Ignore',
-              type: 'button',
-              value: invitation.id.to_s
-            }]
+            {
+              callback_id: 'invitation',
+              fallback: 'You cannot approve invitations.',
+              attachment_type: 'default',
+              actions: [{
+                name: 'approve',
+                text: 'Approve',
+                type: 'button',
+                value: invitation.id.to_s
+              }, {
+                name: 'ignore',
+                text: 'Ignore',
+                type: 'button',
+                value: invitation.id.to_s
+              }]
+            }
           ]
         )
       end
