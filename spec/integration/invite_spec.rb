@@ -9,7 +9,7 @@ describe 'Invite', :js, type: :feature do
     context 'without a team id' do
       it 'displays an error' do
         visit '/invite'
-        expect(page.find_by_id('messages')).to have_content 'Missing or invalid team ID.'
+        expect(page.find_by_id('messages')).to have_text 'Missing or invalid team ID.'
       end
     end
 
@@ -18,7 +18,7 @@ describe 'Invite', :js, type: :feature do
 
       it 'displays team name' do
         visit "/invite?team_id=#{team.team_id}"
-        expect(page.find_by_id('team_name')).to have_content "dblock's team"
+        expect(page.find_by_id('team_name')).to have_text "dblock's team"
       end
     end
 
@@ -29,10 +29,10 @@ describe 'Invite', :js, type: :feature do
 
       it 'displays team info' do
         visit "/invite?team_id=#{team.team_id}"
-        expect(page.find_by_id('team_name')).to have_content team.name
-        expect(page.find_by_id('team_href')).to have_content team.workspace_url
+        expect(page.find_by_id('team_name')).to have_text team.name
+        expect(page.find_by_id('team_href')).to have_text team.workspace_url
         expect(page).to have_link team.workspace_url, href: team.workspace_url
-        expect(page.find_by_id('team_icon')['src']).to have_content team.icon
+        expect(page.find_by_id('team_icon')['src']).to have_text team.icon
       end
 
       it 'sends an invitation' do
@@ -45,7 +45,7 @@ describe 'Invite', :js, type: :feature do
           fill_in 'name', with: name
           fill_in 'email', with: email
           click_on 'Submit'
-          expect(page.find_by_id('messages')).to have_content 'Invitation sent!'
+          expect(page.find_by_id('messages')).to have_text 'Invitation sent!'
         }.to change(team.invitations, :count).by(1)
       end
 
@@ -58,7 +58,7 @@ describe 'Invite', :js, type: :feature do
           fill_in 'name', with: Faker::Name.name
           fill_in 'email', with: 'email@example.com'
           click_on 'Submit'
-          expect(page.find_by_id('messages')).to have_content 'The user is already a member of the team.'
+          expect(page.find_by_id('messages')).to have_text 'The user is already a member of the team.'
         }.to change(team.invitations, :count).by(1)
       end
 
@@ -71,7 +71,7 @@ describe 'Invite', :js, type: :feature do
           fill_in 'name', with: Faker::Name.name
           fill_in 'email', with: 'email@example.com'
           click_on 'Submit'
-          expect(page.find_by_id('messages')).to have_content 'The user has already been invited to the team.'
+          expect(page.find_by_id('messages')).to have_text 'The user has already been invited to the team.'
         }.to change(team.invitations, :count).by(1)
       end
 
@@ -90,7 +90,7 @@ describe 'Invite', :js, type: :feature do
             fill_in 'name', with: Faker::Name.name
             fill_in 'email', with: 'email@example.com'
             click_on 'Submit'
-            expect(page.find_by_id('messages')).to have_content 'Invitation requested!'
+            expect(page.find_by_id('messages')).to have_text 'Invitation requested!'
           }.to change(team.invitations, :count).by(1)
         end
 
@@ -104,7 +104,7 @@ describe 'Invite', :js, type: :feature do
               fill_in 'name', with: invitation.name
               fill_in 'email', with: invitation.email
               click_on 'Submit'
-              expect(page.find_by_id('messages')).to have_content 'Invitation ignored!'
+              expect(page.find_by_id('messages')).to have_text 'Invitation ignored!'
             }.not_to change(team.invitations, :count)
           end
         end
