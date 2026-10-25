@@ -10,7 +10,7 @@
 
 <body class='plain'>
   <p class='icon'>
-    <a href='/'><img src='img/icon.png'></a>
+    <a href='/'><img src='<%= h asset_path('/img/icon.png') %>'></a>
   </p>
   <p>
     <h1>Slack Invite Automation: Subscribe</h1>
@@ -21,7 +21,7 @@
       <span style='display: block; min-height: 30px;'>Pay $9.99 with Card</span>
     </button>
     <p>
-      <img src='/img/stripe.png' width='119' height='26'></img>
+      <img src='<%= h asset_path('/img/stripe.png') %>' width='119' height='26'></img>
     </p>
     <script>
     $(document).ready(function() {
@@ -46,7 +46,7 @@
 
       var handler = StripeCheckout.configure({
         key: '<%= ENV['STRIPE_API_PUBLISHABLE_KEY'] %>',
-        image: '/img/icon.png',
+        image: <%= asset_path('/img/icon.png').to_json %>,
         locale: 'auto',
         token: function(token) {
           $.ajax({

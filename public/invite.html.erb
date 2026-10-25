@@ -4,12 +4,12 @@
 <head>
   <title>Slack Invite Automation: Get Invited</title>
   <%= partial 'public/partials/_head.html.erb' %>
-  <script src="/js/invite.js"></script>
+  <script src="<%= h asset_path('/js/invite.js') %>"></script>
 </head>
 
 <body class='plain'>
   <p class='icon'>
-    <a href='/'><img id='team_icon' src='img/icon.png'></a>
+    <a href='/'><img id='team_icon' src='<%= h asset_path('/img/icon.png') %>'></a>
   </p>
   <p>
     <h1 id='team_caption'>Get Invited to Team <u><span id='team_name'></span></u></h1>

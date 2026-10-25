@@ -42,3 +42,13 @@ Copyright [Daniel Doubrovkine, Vestris LLC](https://www.vestris.com), 2019-2022
 [MIT License](LICENSE)
 
 Icons made by [Freepik](http://www.freepik.com) from [flaticon.com](https://www.flaticon.com).
+
+### Website caching
+
+Local website assets use `h asset_path('/img/example.png')` in ERB HTML
+and `asset_path('/img/example.png').to_json` in JavaScript to include a
+content hash. HTML and generated CSS revalidate with `private, no-cache`,
+configured centrally through `SlackRubyBotServer.config.server_pages`.
+Generated CSS also hashes nested artwork, so image-only changes are picked
+up on reload. Static files retain content ETags and timestamp validation;
+do not add immutable or long-lived cache policies.

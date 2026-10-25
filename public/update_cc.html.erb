@@ -3,7 +3,7 @@
 
 <head>
   <title>Slack Invite Automation: Update Credit Card</title>
-  <%= partial 'public/partials/_head.html' %>
+  <%= partial 'public/partials/_head.html.erb' %>
   <%
       team = Team.where(team_id: request.params['team_id']).first
       stripe_token = request.params['stripeToken']
@@ -14,7 +14,7 @@
 
 <body class='plain'>
   <p class='icon'>
-    <a href='/'><img src='img/icon.png'></a>
+    <a href='/'><img src='<%= h asset_path('/img/icon.png') %>'></a>
   </p>
   <p>
     <h1>Slack Invite Automation: Update Credit Card Info</h1>
@@ -23,12 +23,12 @@
   <p id='update_cc'>
     <p>
       <form action="" method="POST">
-        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="<%= ENV['STRIPE_API_PUBLISHABLE_KEY'] %>" data-image='/img/icon.png' data-name='Invite' data-panel-label="Update Credit Card" data-label="Update Credit Card" data-allow-remember-me=false data-locale="auto">
+        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="<%= ENV['STRIPE_API_PUBLISHABLE_KEY'] %>" data-image='<%= h asset_path('/img/icon.png') %>' data-name='Invite' data-panel-label="Update Credit Card" data-label="Update Credit Card" data-allow-remember-me=false data-locale="auto">
         </script>
       </form>
     </p>
     <p>
-      <img src='/img/stripe.png' width='119' height='26'></img>
+      <img src='<%= h asset_path('/img/stripe.png') %>' width='119' height='26'></img>
     </p>
     <script>
     $(document).ready(function() {

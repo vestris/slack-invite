@@ -8,7 +8,7 @@
 
 <body class='plain'>
   <p class='icon'>
-    <a href='/'><img src='img/icon.png'></a>
+    <a href='/'><img src='<%= h asset_path('/img/icon.png') %>'></a>
   </p>
   <p>
     <h1>Slack Invite Automation: Help</h1>
@@ -17,19 +17,19 @@
     Share the public page that lets users join Slack without an invitation.
   </p>
   <p class="image">
-    <img src="img/invite.png" style="max-width: 640px;">
+    <img src="<%= h asset_path('/img/invite.png') %>" style="max-width: 640px;">
   </p>
   <p>
     Optionally, turn on administrative approval with <b>set approval on</b>.
   </p>
   <p class="image">
-    <img src="img/approval.png" style="max-width: 400px;">
+    <img src="<%= h asset_path('/img/approval.png') %>" style="max-width: 400px;">
   </p>
   <p>
     Slack admins are DMed join requests that can be approved or ignored.
   </p>
   <p class="image">
-    <img src="img/join.png" style="max-width: 400px;">
+    <img src="<%= h asset_path('/img/join.png') %>" style="max-width: 400px;">
   </p>
   <p>
     DM <b>help</b> to <b>@invite</b> for more commands and options.
