@@ -47,6 +47,7 @@ module Api
           end
         end
         coll = coll.all if coll.is_a?(Module) && coll.respond_to?(:all)
+        coll
       end
     end
   end
