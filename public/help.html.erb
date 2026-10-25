@@ -1,40 +1,60 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <title>Slack Invite Automation: Help</title>
   <%= partial 'public/partials/_head.html.erb' %>
 </head>
-
-<body class='plain'>
-  <p class='icon'>
-    <a href='/'><img src='img/icon.png'></a>
-  </p>
-  <p>
-    <h1>Slack Invite Automation: Help</h1>
-  </p>
-  <p>
-    Share the public page that lets users join Slack without an invitation.
-  </p>
-  <p class="image">
-    <img src="img/invite.png" style="max-width: 640px;">
-  </p>
-  <p>
-    Optionally, turn on administrative approval with <b>set approval on</b>.
-  </p>
-  <p class="image">
-    <img src="img/approval.png" style="max-width: 400px;">
-  </p>
-  <p>
-    Slack admins are DMed join requests that can be approved or ignored.
-  </p>
-  <p class="image">
-    <img src="img/join.png" style="max-width: 400px;">
-  </p>
-  <p>
-    DM <b>help</b> to <b>@invite</b> for more commands and options.
-  </p>
+<body class="site-page">
+  <%= partial 'public/partials/_navigation.html.erb' %>
+  <main id="main" class="page-container content-page">
+    <h1>A little help getting people in.</h1>
+    <p class="page-intro">Set up your team's join page, choose how invitations work, and welcome your next member.</p>
+    <section class="help-section" aria-labelledby="start-title">
+      <h2 id="start-title">Your first invitation</h2>
+      <ol class="getting-started">
+        <li>Add Slack Invite Automation to your Slack team.</li>
+        <li>Follow the bot's instructions to authorize an admin to send invitations.</li>
+        <li>Share your public join page so people can request an invitation with their name and email.</li>
+      </ol>
+      <%= partial 'public/partials/_install_button.html.erb' %>
+    </section>
+    <section class="help-section" aria-labelledby="questions-title">
+      <h2 id="questions-title">Setup &amp; questions</h2>
+      <details class="help-topic">
+        <summary>How do I authorize invitations?</summary>
+        <p>The bot asks a Slack admin to authorize it to send invitations on their behalf. Follow the authorization link supplied by the bot.</p>
+        <img src="<%= h asset_path('/img/authorize.png') %>" width="910" height="290" alt="Slack inviting an admin to authorize invitation sending" loading="lazy">
+      </details>
+      <details class="help-topic">
+        <summary>What do people see when they join?</summary>
+        <p>Your public page shows your team's name, icon, and Slack address. Visitors enter their name and email; after the invitation is sent, Slack emails them a link to join.</p>
+        <img class="invitation-preview" src="<%= h asset_path('/img/invite.png') %>" width="1600" height="1000" alt="The public Slack invitation form" loading="lazy">
+        <img src="<%= h asset_path('/img/email.png') %>" width="1284" height="744" alt="An email invitation to join a Slack team" loading="lazy">
+      </details>
+      <details class="help-topic">
+        <summary>Can an admin approve each request?</summary>
+        <p>Yes. Send <code>set approval on</code> to the bot. Slack admins are DMed join requests, which they can approve or ignore.</p>
+        <img src="<%= h asset_path('/img/approval.png') %>" width="948" height="212" alt="Enabling administrative approval" loading="lazy">
+        <img src="<%= h asset_path('/img/join.png') %>" width="982" height="198" alt="An admin reviewing an invitation request in Slack" loading="lazy">
+      </details>
+      <details class="help-topic">
+        <summary>Can I change who sends invitations?</summary>
+        <p>Send <code>set sender @username</code> to choose the Slack admin sending invitations. The selected admin must authorize the bot.</p>
+      </details>
+      <details class="help-topic">
+        <summary>Where can I find more commands?</summary>
+        <p>DM <code>help</code> to <code>@invite</code> for more commands, settings, and subscription information.</p>
+      </details>
+      <details class="help-topic">
+        <summary>How much does it cost?</summary>
+        <p>You can try the bot free for two weeks without a credit card. After that, a subscription costs $9.99 per Slack team per year and automatically renews.</p>
+      </details>
+    </section>
+    <section id="support" class="help-section">
+      <h2>Still need a hand?</h2>
+      <p><a href="https://github.com/vestris/slack-invite/issues/new">Open a GitHub issue</a>, contact <a href="https://twitter.com/playplayio">@playplayio</a>, or email <a href="mailto:dblock@vestris.com">dblock@vestris.com</a>.</p>
+    </section>
+  </main>
   <%= partial 'public/partials/_footer.html.erb' %>
 </body>
-
 </html>
