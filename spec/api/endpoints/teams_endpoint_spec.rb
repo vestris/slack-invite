@@ -3,6 +3,45 @@ require 'spec_helper'
 describe Api::Endpoints::TeamsEndpoint do
   include Api::Test::EndpointTest
 
+  context 'listing teams' do
+    it 'sorts public teams across cursor pages' do
+      first = Fabricate(:team)
+      second = Fabricate(:team)
+      Fabricate(:team, api: false)
+
+      get '/api/teams', sort: '-_id', size: 1
+
+      expect(last_response.status).to eq 200
+      json = JSON.parse(last_response.body)
+      expect(json.fetch('_embedded').fetch('teams').pluck('id')).to eq [second.id.to_s]
+
+      get json.fetch('_links').fetch('next').fetch('href')
+
+      expect(last_response.status).to eq 200
+      expect(JSON.parse(last_response.body).fetch('_embedded').fetch('teams').pluck('id')).to eq [first.id.to_s]
+    end
+
+    it 'preserves the active filter with the default sort' do
+      active = Fabricate(:team, active: true)
+      Fabricate(:team, active: false)
+      Fabricate(:team, active: true, api: false)
+
+      get '/api/teams', active: true
+
+      expect(last_response.status).to eq 200
+      expect(JSON.parse(last_response.body).fetch('_embedded').fetch('teams').pluck('id')).to eq [active.id.to_s]
+    end
+
+    it 'returns an empty list when no teams expose their API' do
+      Fabricate(:team, api: false)
+
+      get '/api/teams', sort: '-_id'
+
+      expect(last_response.status).to eq 200
+      expect(JSON.parse(last_response.body).fetch('_embedded').fetch('teams')).to eq []
+    end
+  end
+
   context 'team' do
     it 'requires code' do
       expect { client.teams._post }.to raise_error Faraday::ClientError do |e|
