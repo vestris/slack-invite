@@ -28,17 +28,17 @@ describe Api::Middleware do
   end
 
   it 'revalidates CSS and regenerates nested artwork URLs after an image-only change' do
-    get '/css/agency.css'
-    image_hash = Digest::SHA256.file('public/img/header-bg.jpg').hexdigest
+    get '/styles.css'
+    image_hash = Digest::SHA256.file('public/img/waves.svg').hexdigest
     expect(last_response.content_type).to eq 'text/css; charset=utf-8'
     expect(last_response.headers['Cache-Control']).to eq 'private, no-cache'
-    expect(last_response.body).to include("/img/header-bg.jpg?v=#{image_hash}")
+    expect(last_response.body).to include("/img/waves.svg?v=#{image_hash}")
 
     allow(Digest::SHA256).to receive(:file).and_call_original
-    allow(Digest::SHA256).to receive(:file).with('public/img/header-bg.jpg').and_return(double(hexdigest: 'f' * 64))
-    get '/css/agency.css', {}, 'HTTP_IF_MODIFIED_SINCE' => File.mtime('public/css/agency.css.erb').httpdate
+    allow(Digest::SHA256).to receive(:file).with('public/img/waves.svg').and_return(double(hexdigest: 'f' * 64))
+    get '/styles.css', {}, 'HTTP_IF_MODIFIED_SINCE' => File.mtime('public/styles.css.erb').httpdate
     expect(last_response.status).to eq 200
-    expect(last_response.body).to include("/img/header-bg.jpg?v=#{'f' * 64}")
+    expect(last_response.body).to include("/img/waves.svg?v=#{'f' * 64}")
     expect(last_response.body).not_to include(image_hash)
   end
 

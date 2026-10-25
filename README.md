@@ -18,6 +18,10 @@ Slack Invite Automation. Hosted at [invite.playplay.io](https://invite.playplay.
 * Tells users when they have already been invited and does not resend duplicate invitations.
 * The account sending invitations is configurable.
 
+## Website
+
+The responsive website shares navigation, a footer and a fixed warm-orange wavy background across the homepage, expandable help, public invitation form, authorization, billing and privacy pages. The waves stay viewport-sized when help expands. Preserve the existing envelope artwork, OAuth scopes, invitation form IDs and handlers, optional admin approval, two-week trial, $9.99 yearly subscription and privacy-policy text. Generated `/styles.css` includes the content-versioned wave artwork.
+
 ## Links
 
 Everybody seems to struggle with this.

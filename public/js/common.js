@@ -17,9 +17,7 @@ $(document).ready(function() {
     };
 
     SlackInvite.register = function(text) {
-        $('.navbar').fadeOut('slow');
-        $('header').fadeOut('slow');
-        $('section').fadeOut('slow');
+        $('#homepage').hide();
         $('#register').show();
     };
 

@@ -12,24 +12,21 @@
     %>
 </head>
 
-<body class='plain'>
-  <p class='icon'>
-    <a href='/'><img src='<%= h asset_path('/img/icon.png') %>'></a>
-  </p>
-  <p>
+<body class="site-page">
+  <%= partial 'public/partials/_navigation.html.erb' %>
+  <main id="main" class="page-container transaction-page">
+    <img class="transaction-logo" src="<%= h asset_path('/img/icon.png') %>" width="88" height="88" alt="">
     <h1>Slack Invite Automation: Update Credit Card Info</h1>
-  </p>
-  <p id='messages' />
-  <p id='update_cc'>
-    <p>
+    <p id="messages" role="status" aria-live="polite"></p>
+    <section id="update_cc" aria-label="Credit card update">
       <form action="" method="POST">
         <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="<%= ENV['STRIPE_API_PUBLISHABLE_KEY'] %>" data-image='<%= h asset_path('/img/icon.png') %>' data-name='Invite' data-panel-label="Update Credit Card" data-label="Update Credit Card" data-allow-remember-me=false data-locale="auto">
         </script>
       </form>
-    </p>
     <p>
-      <img src='<%= h asset_path('/img/stripe.png') %>' width='119' height='26'></img>
-    </p>
+      <img src="<%= h asset_path('/img/stripe.png') %>" width="119" height="26" alt="Powered by Stripe">
+      </section>
+    </main>
     <script>
     $(document).ready(function() {
       var data = {

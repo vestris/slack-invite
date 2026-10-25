@@ -10,18 +10,15 @@
   <meta name="description" content="User workflow in Slack." />
 </head>
 
-<body class='plain'>
-  <p class='icon'>
-    <a href="/"><img src='<%= h asset_path('/img/icon.png') %>'></a>
-  </p>
-  <p>
-    <h1>Slack Invite Automation: Authorize</h1>
-  </p>
-  <p>&nbsp;</p>
-  <p id='messages' />
-  <p>&nbsp;</p>
-  <p class='image'>
-  </p>
+<body class="site-page">
+  <%= partial 'public/partials/_navigation.html.erb' %>
+  <main id="main" class="page-container transaction-page">
+    <img class="transaction-logo" src="<%= h asset_path('/img/icon.png') %>" width="88" height="88" alt="">
+    <h1>Authorize invitations</h1>
+    <p>Connect your admin account so Slack Invite Automation can send invitations on your behalf.</p>
+    <p id="messages" role="status" aria-live="polite"></p>
+    <p>Use the authorization link supplied by the bot. <a href="/help.html">See the setup guide</a> if you need a hand.</p>
+  </main>
   <%= partial 'public/partials/_footer.html.erb' %>
 </body>
 

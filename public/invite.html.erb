@@ -7,16 +7,14 @@
   <script src="<%= h asset_path('/js/invite.js') %>"></script>
 </head>
 
-<body class='plain'>
-  <p class='icon'>
-    <a href='/'><img id='team_icon' src='<%= h asset_path('/img/icon.png') %>'></a>
-  </p>
-  <p>
-    <h1 id='team_caption'>Get Invited to Team <u><span id='team_name'></span></u></h1>
-    <p class='link'><a id='team_href' target='_blank'><span id='team_href'></span></a></p>
-  </p>
-  <p id='messages' />
-  <p id='invite'>
+<body class="site-page">
+  <%= partial 'public/partials/_navigation.html.erb' %>
+  <main id="main" class="page-container transaction-page">
+    <img id="team_icon" class="transaction-logo" src="<%= h asset_path('/img/icon.png') %>" width="88" height="88" alt="Slack team icon">
+    <h1 id="team_caption">Get invited to <span id="team_name">your Slack team</span></h1>
+    <p><a id="team_href" target="_blank" rel="noopener"></a></p>
+    <p id="messages" role="status" aria-live="polite"></p>
+    <section id="invite" aria-label="Request an invitation">
     <script>
       $(document).ready(function() {
         <% team = Team.where(team_id: request.params['team_id']).first %>
@@ -46,18 +44,19 @@
         }
       });
       </script>
-    <form id="form" onsubmit="return invite(event);">
+    <form id="form" class="invite-form" onsubmit="return invite(event);">
       <div>
-        <label for="name">name:</label>
-        <input type="text" id="name">
+        <label for="name">Name</label>
+        <input type="text" id="name" autocomplete="name">
       </div>
       <div>
-        <label for="email">email:</label>
-        <input type="email" id="email" placeholder="you@example.com">
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
       </div>
       <button type="submit" class="button" onclick="return invite(event);">Submit</button>
     </form>
-  </p>
+    </section>
+  </main>
   <%= partial 'public/partials/_footer.html.erb' %>
 </body>
 
